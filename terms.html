@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms of Service | Medi Connect International</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- DESIGN SYSTEM (Consistent with Main Site) --- */
+        :root {
+            --primary: #0F172A;
+            --primary-soft: #1E293B;
+            --accent: #0EA5E9;
+            --accent-dark: #0284C7;
+            --secondary: #475569;
+            --bg-body: #F8FAFC;
+            --bg-surface: #FFFFFF;
+            
+            --glass-bg: rgba(255, 255, 255, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.5);
+            --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+
+            --font-heading: 'Plus Jakarta Sans', sans-serif;
+            --font-body: 'Inter', sans-serif;
+
+            --container-width: 900px; /* Narrower for readability */
+            --radius-md: 16px;
+            --radius-lg: 24px;
+            --transition-smooth: all 0.3s ease;
+        }
+
+        /* --- RESET & BASE --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        html { scroll-behavior: smooth; font-size: 16px; }
+        
+        body { 
+            font-family: var(--font-body); 
+            background-color: var(--bg-body);
+            color: var(--secondary);
+            line-height: 1.8;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        h1, h2, h3, h4 { 
+            font-family: var(--font-heading); 
+            color: var(--primary); 
+            font-weight: 700; 
+            line-height: 1.2; 
+            letter-spacing: -0.02em; 
+        }
+
+        a { text-decoration: none; color: inherit; transition: var(--transition-smooth); }
+        ul { list-style: none; }
+
+        /* --- LAYOUT UTILITIES --- */
+        .container { max-width: var(--container-width); margin: 0 auto; padding: 0 24px; }
+        .flex { display: flex; }
+        .items-center { align-items: center; }
+        .justify-between { justify-content: space-between; }
+        
+        /* --- HEADER (Simplified for Legal Page) --- */
+        header {
+            background: var(--bg-surface);
+            border-bottom: 1px solid #E2E8F0;
+            padding: 20px 0;
+            position: sticky; top: 0; z-index: 100;
+        }
+        .nav-bar { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-family: var(--font-heading); font-weight: 800; color: var(--primary); display: flex; align-items: center; gap: 10px; }
+        .logo i { color: var(--accent); }
+        
+        .back-link { font-size: 0.9rem; color: var(--secondary); font-weight: 500; }
+        .back-link:hover { color: var(--accent); }
+
+        /* --- DOCUMENT CONTENT --- */
+        .document-wrapper {
+            max-width: 800px;
+            margin: 60px auto;
+            background: white;
+            padding: 60px;
+            border-radius: var(--radius-lg);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            border: 1px solid #E2E8F0;
+        }
+
+        .doc-header { text-align: center; margin-bottom: 60px; padding-bottom: 40px; border-bottom: 1px solid #F1F5F9; }
+        .doc-header h1 { font-size: 2.5rem; margin-bottom: 16px; }
+        .doc-meta { color: #94A3B8; font-size: 0.9rem; }
+
+        .legal-section { margin-bottom: 48px; scroll-margin-top: 100px; }
+        .legal-section h2 { 
+            font-size: 1.5rem; 
+            margin-bottom: 16px; 
+            color: var(--primary);
+            display: flex; align-items: center; gap: 12px;
+        }
+        .legal-section h2 i { color: var(--accent); font-size: 1.2rem; }
+        
+        .legal-section p { margin-bottom: 16px; }
+        
+        /* List Styles */
+        .legal-list {
+            list-style: none;
+            margin-left: 0;
+            padding-left: 24px;
+            border-left: 2px solid #F1F5F9;
+        }
+        .legal-list li {
+            position: relative;
+            margin-bottom: 12px;
+            padding-left: 16px;
+        }
+        .legal-list li::before {
+            content: '•'; color: var(--accent); font-weight: bold;
+            position: absolute; left: -12px; top: 0;
+        }
+        
+        .emphasis { font-weight: 600; color: var(--primary); }
+        .highlight-box {
+            background: #F0F9FF; border-left: 4px solid var(--accent);
+            padding: 24px; border-radius: 0 8px 8px 0; margin: 24px 0;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            background: #F1F5F9; padding: 60px 0; border-top: 1px solid #E2E8F0;
+            margin-top: 60px;
+        }
+        .footer-content { text-align: center; max-width: 600px; margin: 0 auto; }
+        .footer-links a { color: var(--secondary); font-size: 0.9rem; margin: 0 10px; }
+        .footer-links a:hover { color: var(--accent); }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 768px) {
+            .document-wrapper { padding: 30px; margin: 30px 20px; }
+            .doc-header h1 { font-size: 2rem; }
+            .legal-section h2 { font-size: 1.25rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="container nav-bar">
+            <a href="index.html" class="logo">
+                <i class="fa-solid fa-heart-pulse"></i>
+                Medi Connect
+            </a>
+            <a href="index.html" class="back-link">
+                <i class="fa-solid fa-arrow-left"></i> Back to Home
+            </a>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="document-wrapper">
+                
+                <!-- Header -->
+                <div class="doc-header">
+                    <h1>Terms of Service</h1>
+                    <div class="doc-meta">Last Updated: October 2023 | Effective Date: October 2023</div>
+                    <p style="margin-top: 20px; font-size: 0.95rem;">
+                        Welcome to <strong>Medi Connect International</strong>. We are dedicated to providing ethical and transparent medical travel coordination services. Please read these Terms of Service carefully to understand our relationship with you.
+                    </p>
+                </div>
+
+                <!-- 1. Introduction -->
+                <div class="legal-section" id="introduction">
+                    <h2><i class="fa-solid fa-file-contract"></i> 1. Introduction</h2>
+                    <p>These Terms of Service ("Terms") govern your use of the Medi Connect International website and the coordination services we provide. By accessing our website, filling out our forms, or engaging with our services, you acknowledge that you have read, understood, and agree to be bound by these Terms.</p>
+                    <p>If you do not agree with these Terms, please do not use our services.</p>
+                </div>
+
+                <!-- 2. Nature of Services -->
+                <div class="legal-section" id="nature-of-services">
+                    <h2><i class="fa-solid fa-stethoscope"></i> 2. Nature of Services</h2>
+                    <p>It is essential to understand exactly who we are and what we do. Medi Connect International acts solely as a facilitator.</p>
+                    <ul class="legal-list">
+                        <li>We are a <span class="emphasis">medical travel and care coordination service</span>. We assist with logistics, communication, and administrative tasks.</li>
+                        <li>We are <span class="emphasis">not a hospital, clinic, or medical provider</span>. We do not employ doctors or nurses.</li>
+                        <li>We <span class="emphasis">do not provide medical advice, diagnosis, or treatment opinions</span>. Any information we share regarding hospitals is for administrative purposes only and should not be taken as medical advice.</li>
+                    </ul>
+                </div>
+
+                <!-- 3. Role of Partner Hospitals -->
+                <div class="legal-section" id="role-of-partner-hospitals">
+                    <h2><i class="fa-solid fa-hospital-user"></i> 3. Role of Partner Hospitals</h2>
+                    <p>All actual medical care, diagnosis, surgical procedures, and therapeutic treatments are provided by independent third-party medical institutions, specifically our partner hospitals in India.</p>
+                    <ul class="legal-list">
+                        <li><strong>Medical Independence:</strong> All medical decisions—including diagnosis, treatment plans, medication, and prognoses—are made exclusively by licensed medical professionals at the partner hospitals.</li>
+                        <li><strong>Our Role:</strong> Medi Connect International does not influence, control, or interfere with clinical judgments or medical outcomes.</li>
+                    </ul>
+                </div>
+
+                <!-- 4. Payment Facilitation -->
+                <div class="legal-section" id="payment-facilitation">
+                    <h2><i class="fa-solid fa-credit-card"></i> 4. Payment Facilitation</h2>
+                    <div class="highlight-box">
+                        <strong>Authorized Payment Agent:</strong> Medi Connect International is authorized to collect payments on behalf of our partner hospitals to streamline the process for international patients.
+                    </div>
+                    <ul class="legal-list">
+                        <li><strong>Hospital Fees:</strong> Funds collected for medical procedures are held in trust and transferred directly to the relevant hospital.</li>
+                        <li><strong>Separation of Fees:</strong> There is a clear distinction between <strong>Coordination Fees</strong> (paid to Medi Connect International for our logistical services) and <strong>Medical Service Fees</strong> (paid to the hospital for treatment).</li>
+                    </ul>
+                </div>
+
+                <!-- 5. Fees & Refunds -->
+                <div class="legal-section" id="fees-and-refunds">
+                    <h2><i class="fa-solid fa-hand-holding-dollar"></i> 5. Fees & Refunds</h2>
+                    <h3 style="font-size: 1.1rem; margin-bottom: 8px;">Coordination Fees</h3>
+                    <p>Our coordination fees cover administrative work, visa assistance, airport transfers, and liaison services. These fees are generally non-refundable once services have commenced.</p>
+                    
+                    <h3 style="font-size: 1.1rem; margin-bottom: 8px; margin-top: 24px;">Medical Fees</h3>
+                    <p>Refunds for medical services (deposits, advance payments, or procedure fees) are strictly governed by the specific refund policy of the hospital where treatment was provided. Medi Connect International will advocate on your behalf to facilitate any refunds owed by the hospital, but we do not guarantee the outcome of hospital refund requests.</p>
+                </div>
+
+                <!-- 6. Limitation of Liability -->
+                <div class="legal-section" id="limitation-of-liability">
+                    <h2><i class="fa-solid fa-shield-halved"></i> 6. Limitation of Liability</h2>
+                    <p>To the fullest extent permitted by the laws of the Republic of South Africa:</p>
+                    <ul class="legal-list">
+                        <li>Medi Connect International shall <span class="emphasis">not be liable</span> for any medical outcomes, complications, side effects, or the ineffectiveness of any treatment provided by partner hospitals.</li>
+                        <li>We are not liable for delays, cancellations, or changes in flight schedules, visa denials, or changes in hospital availability.</li>
+                        <li>Our liability is strictly limited to the coordination services we provide. In no event shall our total liability exceed the amount of the coordination fees paid by you for the specific trip.</li>
+                    </ul>
+                </div>
+
+                <!-- 7. No Guarantees -->
+                <div class="legal-section" id="no-guarantees">
+                    <h2><i class="fa-solid fa-ban"></i> 7. No Guarantees</h2>
+                    <p>Medicine is an evolving science, and individual results vary. Medi Connect International makes no guarantees, express or implied, regarding:</p>
+                    <ul class="legal-list">
+                        <li>Medical outcomes or cure rates.</li>
+                        <li>The specific timeline of recovery.</li>
+                        <li>The availability of a specific doctor or bed at the hospital without prior confirmation.</li>
+                    </ul>
+                </div>
+
+                <!-- 8. User Responsibilities -->
+                <div class="legal-section" id="user-responsibilities">
+                    <h2><i class="fa-solid fa-user-check"></i> 8. User Responsibilities</h2>
+                    <p>By using our services, you agree to:</p>
+                    <ul class="legal-list">
+                        <li><strong>Provide Accurate Information:</strong> You must provide truthful, complete, and up-to-date medical history and personal details. Withholding information can be dangerous to your health.</li>
+                        <li><strong>Compliance:</strong> You agree to comply with all hospital rules, immigration laws of India, and visa regulations.</li>
+                        <li><strong>Payment:</strong> You agree to settle all invoices (both coordination and medical) in a timely manner as per the payment schedule agreed upon.</li>
+                    </ul>
+                </div>
+
+                <!-- 9. Governing Law -->
+                <div class="legal-section" id="governing-law">
+                    <h2><i class="fa-solid fa-scale-balanced"></i> 9. Governing Law</h2>
+                    <p>These Terms of Service shall be governed by and construed in accordance with the laws of the <strong>Republic of South Africa</strong>. Any disputes arising under these Terms shall be subject to the exclusive jurisdiction of the courts of South Africa.</p>
+                </div>
+
+                <!-- 10. Contact Information -->
+                <div class="legal-section" id="contact-information">
+                    <h2><i class="fa-solid fa-address-book"></i> 10. Contact Information</h2>
+                    <p>If you have any questions about these Terms, please contact us:</p>
+                    <div style="background: #F8FAFC; padding: 20px; border-radius: 8px; border: 1px solid #E2E8F0;">
+                        <strong>Medi Connect International</strong><br>
+                        Headquarters: South Africa<br>
+                        Email: legal@mediconnect.int<br>
+                        Phone: +27 (11) 123-4567
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-content">
+            <a href="#" class="logo" style="margin-bottom: 20px; justify-content: center;">
+                <i class="fa-solid fa-heart-pulse"></i> Medi Connect
+            </a>
+            <div class="footer-links">
+                <a href="about.html">About Us</a>
+                <a href="services.html">Services</a>
+                <a href="privacy.html">Privacy Policy</a>
+            </div>
+            <p style="margin-top: 20px; font-size: 0.85rem; color: #94A3B8;">
+                &copy; 2023 Medi Connect International. All rights reserved.
+            </p>
+        </div>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us | Medi Connect International</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- 1. DESIGN SYSTEM & VARIABLES --- */
+        :root {
+            /* Colors */
+            --primary: #0F172A;       /* Deep Slate - Trust */
+            --primary-light: #334155;
+            --accent: #2563EB;        /* Royal Blue - Action */
+            --accent-glow: rgba(37, 99, 235, 0.4);
+            --secondary: #64748B;     /* Cool Gray - Text */
+            --bg-body: #F8FAFC;       /* Very light blue-grey */
+            --bg-surface: #FFFFFF;
+            --bg-glass: rgba(255, 255, 255, 0.85);
+            
+            /* Typography */
+            --font-heading: 'Plus Jakarta Sans', sans-serif;
+            --font-body: 'Inter', sans-serif;
+
+            /* Spacing & Borders */
+            --container-width: 1200px;
+            --radius-sm: 8px;
+            --radius-md: 16px;
+            --radius-lg: 24px;
+            --radius-full: 9999px;
+            
+            /* Shadows & Effects */
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+            --shadow-md: 0 10px 40px -10px rgba(0,0,0,0.08);
+            --shadow-lg: 0 20px 60px -15px rgba(0,0,0,0.15);
+            --glass-border: 1px solid rgba(255, 255, 255, 0.6);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        /* --- 2. RESET & BASE STYLES --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        html { scroll-behavior: smooth; font-size: 16px; }
+        
+        body { 
+            font-family: var(--font-body); 
+            background-color: var(--bg-body);
+            color: var(--secondary);
+            line-height: 1.6; 
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4 { 
+            font-family: var(--font-heading); 
+            color: var(--primary); 
+            font-weight: 700; 
+            line-height: 1.2; 
+            letter-spacing: -0.02em; 
+        }
+
+        p { color: var(--secondary); margin-bottom: 1rem; }
+        
+        a { text-decoration: none; color: inherit; transition: var(--transition); }
+        ul { list-style: none; }
+
+        /* --- 3. UTILITY CLASSES --- */
+        .container { max-width: var(--container-width); margin: 0 auto; padding: 0 24px; }
+        .flex { display: flex; }
+        .items-center { align-items: center; }
+        .justify-between { justify-content: space-between; }
+        .grid { display: grid; }
+        .text-center { text-align: center; }
+        
+        .section-py { padding-top: 100px; padding-bottom: 100px; }
+        
+        .bg-gradient-light {
+            background: linear-gradient(180deg, #FFFFFF 0%, #F1F5F9 100%);
+        }
+
+        /* --- 4. ANIMATIONS --- */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .animate-up { animation: fadeInUp 0.8s ease-out forwards; }
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+
+        /* --- 5. HEADER & NAV --- */
+        header {
+            position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+            width: calc(100% - 40px); max-width: var(--container-width);
+            background: var(--bg-glass);
+            backdrop-filter: blur(12px) saturate(180%);
+            -webkit-backdrop-filter: blur(12px) saturate(180%);
+            border: var(--glass-border);
+            border-radius: var(--radius-full);
+            padding: 12px 32px;
+            z-index: 1000;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        nav { display: flex; justify-content: space-between; align-items: center; position: relative; }
+        
+        .logo { 
+            font-family: var(--font-heading); 
+            font-weight: 800; 
+            font-size: 1.25rem; 
+            color: var(--primary); 
+            display: flex; align-items: center; gap: 10px; 
+            white-space: nowrap;
+        }
+        .logo i { color: var(--accent); font-size: 1.4rem; }
+        
+        /* Desktop Nav Links */
+        .nav-links { display: flex; gap: 24px; align-items: center; }
+        .nav-link { 
+            font-size: 0.9rem; font-weight: 500; color: var(--primary-light); 
+            position: relative; white-space: nowrap;
+        }
+        .nav-link::after {
+            content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 2px;
+            background: var(--accent); transition: var(--transition);
+        }
+        .nav-link:hover { color: var(--accent); }
+        .nav-link:hover::after { width: 100%; }
+        .nav-link.active { color: var(--accent); font-weight: 700; }
+
+        /* Mobile Toggle */
+        .mobile-toggle {
+            display: none; 
+            font-size: 1.25rem; 
+            background: none; 
+            border: none; 
+            cursor: pointer; 
+            color: var(--primary);
+            z-index: 1002;
+        }
+
+        /* Mobile Menu Dropdown */
+        .mobile-menu {
+            display: none; 
+            position: absolute; 
+            top: 70px; 
+            left: 0; 
+            width: 100%; 
+            background: white; 
+            border-radius: 20px; 
+            padding: 20px; 
+            box-shadow: var(--shadow-lg);
+            flex-direction: column; 
+            gap: 16px; 
+            text-align: center;
+            z-index: 1001;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+        .mobile-menu.active { display: flex; animation: fadeInUp 0.3s ease-out; }
+        .mobile-menu a {
+            font-weight: 600; color: var(--primary); padding: 10px; border-radius: 8px;
+            transition: background 0.2s;
+        }
+        .mobile-menu a:hover { background: #F1F5F9; }
+
+        /* Buttons */
+        .btn-cta { 
+            background: var(--primary); color: white; 
+            padding: 10px 24px; border-radius: var(--radius-full); 
+            font-weight: 600; font-size: 0.9rem; 
+            border: none; cursor: pointer; 
+            transition: var(--transition);
+            box-shadow: 0 4px 14px rgba(15, 23, 42, 0.3);
+            white-space: nowrap;
+        }
+        .btn-cta:hover { 
+            transform: translateY(-2px); 
+            background: var(--accent); 
+            box-shadow: 0 6px 20px var(--accent-glow);
+        }
+        
+        .btn-outline { 
+            background: transparent; color: var(--primary); border: 2px solid var(--primary); 
+            padding: 10px 24px; border-radius: var(--radius-full); 
+            font-weight: 600; font-size: 0.9rem; cursor: pointer; transition: var(--transition);
+        }
+        .btn-outline:hover { 
+            background: var(--primary); color: white; 
+            transform: translateY(-2px); 
+        }
+
+        /* --- PAGE SPECIFIC: HERO --- */
+        .hero-about {
+            position: relative;
+            min-height: 70vh; /* Slightly smaller than home */
+            display: flex;
+            align-items: center;
+            padding-top: 140px;
+            background-color: #F1F5F9;
+            overflow: hidden;
+        }
+
+        .hero-bg-blob {
+            position: absolute;
+            width: 600px; height: 600px;
+            background: radial-gradient(circle, rgba(37,99,235,0.1) 0%, rgba(255,255,255,0) 70%);
+            border-radius: 50%;
+            z-index: 0;
+        }
+        .blob-1 { top: -50px; right: -100px; animation: float 8s infinite ease-in-out; }
+        .blob-2 { bottom: -50px; left: -100px; background: radial-gradient(circle, rgba(56,189,248,0.1) 0%, rgba(255,255,255,0) 70%); animation: float 10s infinite ease-in-out reverse; }
+
+        .hero-content {
+            position: relative; z-index: 2;
+            max-width: 800px; margin: 0 auto; text-align: center;
+        }
+
+        .hero-about h1 {
+            font-size: 3.5rem;
+            margin-bottom: 24px;
+            color: var(--primary);
+        }
+        
+        .hero-about p {
+            font-size: 1.25rem;
+            color: var(--primary-light);
+            margin-bottom: 40px;
+        }
+
+        /* --- WHY WE EXIST (Story) --- */
+        .story-section {
+            background: white;
+        }
+        .story-text {
+            max-width: 800px; margin: 0 auto;
+            font-size: 1.1rem;
+            color: var(--primary-light);
+        }
+        .highlight-text {
+            border-left: 4px solid var(--accent);
+            padding-left: 24px;
+            margin: 32px 0;
+            font-style: italic;
+            color: var(--primary);
+            font-weight: 500;
+        }
+
+        /* --- ROLE SPLIT --- */
+        .role-split {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;
+        }
+        .role-list li {
+            display: flex; align-items: flex-start; gap: 16px; margin-bottom: 24px;
+        }
+        .role-icon {
+            flex-shrink: 0; width: 24px; height: 24px; background: #EFF6FF; color: var(--accent);
+            border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; margin-top: 2px;
+        }
+
+        /* --- LEGAL BANNER --- */
+        .legal-banner {
+            background: #FFF1F2; /* Light red bg for attention */
+            border-top: 1px solid #FFE4E6;
+            border-bottom: 1px solid #FFE4E6;
+            padding: 60px 0;
+        }
+        .legal-box {
+            background: white;
+            border: 1px solid #FDA4AF;
+            border-radius: var(--radius-md);
+            padding: 40px;
+            display: flex;
+            gap: 32px;
+            align-items: flex-start;
+        }
+        .legal-icon {
+            font-size: 3rem;
+            color: #E11D48; /* Red */
+            flex-shrink: 0;
+        }
+        .legal-content h3 { color: #E11D48; margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
+        .legal-list li {
+            position: relative;
+            padding-left: 24px;
+            margin-bottom: 12px;
+            font-weight: 500;
+            color: var(--primary);
+        }
+        .legal-list li::before {
+            content: '•'; color: #E11D48; font-weight: bold;
+            position: absolute; left: 0; top: 0;
+        }
+
+        /* --- VALUES GRID --- */
+        .value-card {
+            padding: 32px; background: white; border-radius: var(--radius-lg); text-align: center;
+            border: 1px solid #F1F5F9; transition: var(--transition);
+        }
+        .value-card:hover { border-color: var(--accent); transform: translateY(-5px); box-shadow: var(--shadow-md); }
+        .value-icon {
+            font-size: 2.5rem; color: #CBD5E1; margin-bottom: 20px; transition: var(--transition);
+        }
+        .value-card:hover .value-icon { color: var(--accent); }
+
+        /* --- FOOTER & MODAL (Same as Index) --- */
+        footer {
+            border-top: 1px solid #E2E8F0; padding: 60px 0 30px; background: white;
+        }
+        .modal-overlay {
+            display: none; position: fixed; inset: 0; z-index: 2000;
+            background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(8px);
+            align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s;
+        }
+        .modal-overlay.active { display: flex; opacity: 1; }
+        .modal-content {
+            background: white; width: 90%; max-width: 500px;
+            padding: 40px; border-radius: var(--radius-lg);
+            position: relative; transform: scale(0.9); transition: transform 0.3s;
+        }
+        .modal-overlay.active .modal-content { transform: scale(1); }
+        .close-modal { position: absolute; top: 20px; right: 20px; background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--secondary); }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 900px) {
+            .hero-about h1 { font-size: 2.5rem; }
+            .role-split { grid-template-columns: 1fr; }
+            .legal-box { flex-direction: column; text-align: center; }
+            .legal-list li { text-align: left; }
+            
+            /* Nav Changes */
+            header { padding: 12px 20px; width: calc(100% - 40px); }
+            .nav-links { display: none; }
+            .mobile-toggle { display: block; }
+            nav > .btn-cta { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <nav>
+            <a href="index.html" class="logo">
+                <i class="fa-solid fa-heart-pulse"></i>
+                Medi Connect
+            </a>
+            
+            <!-- Desktop Navigation -->
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="about.html" class="nav-link active">About Us</a>
+                <a href="gallery.html" class="nav-link">Gallery</a>
+                <a href="services.html" class="nav-link">Services</a>
+                <a href="contact.html" class="nav-link">Contact Us</a>
+            </div>
+
+           <!-- Desktop CTA (Hidden on Mobile) -->
+<a href="contact.html" class="btn-cta">Get Started</a>
+
+
+            <!-- Mobile Hamburger -->
+            <button class="mobile-toggle" onclick="toggleMobileMenu()">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+
+            <!-- Mobile Menu Dropdown -->
+            <div class="mobile-menu" id="mobile-menu">
+                <a href="index.html" onclick="toggleMobileMenu()">Home</a>
+                <a href="about.html" onclick="toggleMobileMenu()">About Us</a>
+                <a href="gallery.html" onclick="toggleMobileMenu()">Gallery</a>
+                <a href="services.html" onclick="toggleMobileMenu()">Services</a>
+                <a href="contact.html" onclick="toggleMobileMenu()">Contact Us</a>
+                <button class="btn-cta" style="width:100%" onclick="toggleModal('contact-modal'); toggleMobileMenu();">Get Started</button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- 1. HERO SECTION -->
+    <section class="hero-about">
+        <div class="hero-bg-blob blob-1"></div>
+        <div class="hero-bg-blob blob-2"></div>
+        
+        <div class="container hero-content animate-up">
+            <h1>Our Mission: Access to World-Class Care</h1>
+            <p>Bridging the gap between patients and the medical care they need, providing trusted guidance when it matters most.</p>
+            <button class="btn-cta" onclick="document.getElementById('our-role').scrollIntoView()">Discover Our Role</button>
+        </div>
+    </section>
+
+    <!-- 2. THE GLOBAL CHALLENGE (STORY) -->
+    <section class="section-py story-section">
+        <div class="container">
+            <div class="text-center" style="max-width: 800px; margin: 0 auto 60px;">
+                <h2 style="font-size: 2.5rem; margin-bottom: 24px;">Why We Exist</h2>
+            </div>
+            
+            <div class="story-text">
+                <p>Every day, thousands of individuals around the world face a daunting reality: the medical treatment they need is either unavailable locally or financially out of reach. The global challenge of accessing timely, affordable, and high-quality care is a barrier that stands between patients and their survival or recovery.</p>
+                
+                <div class="highlight-text">
+                    "Navigating a foreign healthcare system shouldn't add to the burden of illness. Patients need a guide, not just a directory."
+                </div>
+
+                <p>Medi Connect International was created to solve this problem. We recognized that while world-class hospitals exist in destinations like India, the path to reaching them is often filled with administrative hurdles, communication barriers, and uncertainty. Families are left asking: <em>"Is this hospital safe?" "Can I trust the doctor?" "How do I manage the logistics from another country?"</p>
+
+                <p>We exist to provide the answer to those questions, offering a bridge to trusted medical care.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. WHY INDIA? -->
+    <section class="section-py bg-gradient-light">
+        <div class="container">
+            <div class="role-split">
+                <div>
+                    <h2 style="font-size: 2.5rem; margin-bottom: 24px;">Why India?</h2>
+                    <p style="font-size: 1.1rem; color: var(--primary-light);">India has emerged as a key global destination for advanced medical treatment, offering a unique convergence of quality and accessibility.</p>
+                    
+                    <ul class="role-list" style="margin-top: 32px;">
+                        <li>
+                            <div class="role-icon"><i class="fa-solid fa-stethoscope"></i></div>
+                            <div>
+                                <strong>Advanced Infrastructure</strong>
+                                <p style="font-size: 0.9rem; margin-bottom: 0;">Hospitals equipped with the latest oncology and surgical technology.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="role-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+                            <div>
+                                <strong>World-Class Expertise</strong>
+                                <p style="font-size: 0.9rem; margin-bottom: 0;">Doctors and surgeons trained globally with immense experience.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="role-icon"><i class="fa-solid fa-piggy-bank"></i></div>
+                            <div>
+                                <strong>Cost Efficiency</strong>
+                                <p style="font-size: 0.9rem; margin-bottom: 0;">Treatments often available at a fraction of the cost compared to Western healthcare systems.</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <img src="https://picsum.photos/seed/indiahospital/600/700" alt="Hospital in India" style="width: 100%; border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); object-fit: cover;">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. OUR ROLE -->
+    <section id="our-role" class="section-py">
+        <div class="container">
+            <div class="text-center" style="max-width: 700px; margin: 0 auto 60px;">
+                <h2 style="font-size: 2.5rem;">Our Role</h2>
+                <p>We act as your dedicated medical travel and care coordination partner.</p>
+            </div>
+
+            <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 32px;">
+                <div class="value-card" style="text-align: left;">
+                    <div class="value-icon" style="color: var(--accent); font-size: 2rem;"><i class="fa-solid fa-ear-listen"></i></div>
+                    <h3>Communication Bridge</h3>
+                    <p>We facilitate clear communication between you and the hospital, ensuring your medical history is understood and your questions are answered.</p>
+                </div>
+                <div class="value-card" style="text-align: left;">
+                    <div class="value-icon" style="color: var(--accent); font-size: 2rem;"><i class="fa-solid fa-route"></i></div>
+                    <h3>Logistics & Travel</h3>
+                    <p>From visa assistance letters to airport pickup and accommodation, we handle the details so you can focus on healing.</p>
+                </div>
+                <div class="value-card" style="text-align: left;">
+                    <div class="value-icon" style="color: var(--accent); font-size: 2rem;"><i class="fa-solid fa-file-invoice-dollar"></i></div>
+                    <h3>Financial Guidance</h3>
+                    <p>We assist with understanding cost estimates and facilitate payment coordination, ensuring transparency in financial planning.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. LEGAL & MEDICAL CLARITY (CRITICAL) -->
+    <section class="legal-banner">
+        <div class="container">
+            <div class="legal-box">
+                <div class="legal-icon">
+                    <i class="fa-solid fa-scale-balanced"></i>
+                </div>
+                <div class="legal-content">
+                    <h3>Legal & Medical Clarity</h3>
+                    <p style="margin-bottom: 24px;">To ensure trust and safety, it is vital to understand exactly who we are:</p>
+                    <ul class="legal-list">
+                        <li>Medi Connect International is <strong>NOT</strong> a hospital, clinic, or medical service provider.</li>
+                        <li>We <strong>DO NOT</strong> provide medical advice, diagnosis, or treatment opinions.</li>
+                        <li>All medical services, consultations, and treatments are delivered exclusively by licensed hospitals and doctors in India.</li>
+                        <li>Our role is strictly administrative and logistical coordination.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. OUR VALUES -->
+    <section class="section-py bg-gradient-light">
+        <div class="container">
+            <div class="text-center" style="margin-bottom: 60px;">
+                <h2 style="font-size: 2.5rem;">Our Values</h2>
+                <p>The principles that guide every interaction.</p>
+            </div>
+
+            <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px;">
+                <div class="value-card">
+                    <div class="value-icon"><i class="fa-solid fa-heart"></i></div>
+                    <h4>Compassion</h4>
+                    <p>We approach every case with empathy, understanding the emotional weight of medical travel.</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon"><i class="fa-solid fa-magnifying-glass"></i></div>
+                    <h4>Transparency</h4>
+                    <p>We operate with honesty, providing clear information about costs, processes, and expectations.</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon"><i class="fa-solid fa-shield-heart"></i></div>
+                    <h4>Dignity & Confidentiality</h4>
+                    <p>We protect patient privacy fiercely and treat every individual with the utmost respect.</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon"><i class="fa-solid fa-handshake-simple"></i></div>
+                    <h4>Ethical Coordination</h4>
+                    <p>We facilitate choices without influence. Medical decisions remain strictly between patient and doctor.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. CTA SECTION -->
+    <section class="container" style="margin-bottom: 80px;">
+        <div style="background: var(--primary); border-radius: 30px; padding: 80px 40px; text-align: center; color: white; position: relative; overflow: hidden;">
+            <!-- Decorative glow -->
+            <div style="position: absolute; top: -50%; right: -10%; width: 400px; height: 400px; background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%); border-radius: 50%;"></div>
+            
+            <h2 style="color: white; margin-bottom: 16px; position: relative; z-index: 2;">Ready to Connect?</h2>
+            <p style="color: #94A3B8; max-width: 600px; margin: 0 auto 40px; position: relative; z-index: 2;">
+                If you or a loved one is seeking guidance on medical care options in India, we are here to listen and help.
+            </p>
+            <button class="btn-cta" style="background: white; color: var(--primary); position: relative; z-index: 2;" onclick="toggleModal('contact-modal')">Reach Out to Us</button>
+        </div>
+    </section>
+
+    <!-- 8. FOOTER -->
+    <footer>
+        <div class="container">
+            <div style="border: 1px solid #E2E8F0; background: #F8FAFC; padding: 20px; border-radius: var(--radius-md); margin-bottom: 40px; font-size: 0.85rem;">
+                <strong><i class="fa-solid fa-triangle-exclamation"></i> MEDICAL DISCLAIMER:</strong><br>
+                Medi Connect International is not a medical provider and does not provide medical advice. All diagnosis, treatment, and medical care are provided directly by licensed hospitals and doctors. We act solely as a coordination facilitator.
+            </div>
+            
+            <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; margin-bottom: 40px;">
+                <div>
+                    <h4 style="margin-bottom: 16px;">Medi Connect International</h4>
+                    <p style="font-size: 0.9rem;">Bridging the gap between world-class oncology care and patients around the globe.</p>
+                </div>
+                <div>
+                    <h4 style="margin-bottom: 16px;">Quick Links</h4>
+                    <ul style="font-size: 0.9rem;">
+                        <li style="margin-bottom: 8px;"><a href="index.html">Home</a></li>
+                        <li style="margin-bottom: 8px;"><a href="about.html">About Us</a></li>
+                        <li style="margin-bottom: 8px;"><a href="services.html">Services</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 style="margin-bottom: 16px;">Contact</h4>
+                    <p style="font-size: 0.9rem;">help@mediconnect.int</p>
+                    <p style="font-size: 0.9rem;">+1 (555) 123-4567</p>
+                </div>
+            </div>
+            
+            <div class="text-center" style="border-top: 1px solid #E2E8F0; padding-top: 30px; font-size: 0.85rem; color: #94A3B8;">
+                &copy; 2023 Medi Connect International. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- CONTACT MODAL -->
+    <div id="contact-modal" class="modal-overlay" onclick="closeModal(event)">
+        <div class="modal-content">
+            <button class="close-modal" onclick="toggleModal('contact-modal')">&times;</button>
+            <h3 style="margin-bottom: 8px;">Start Confidential Consultation</h3>
+            <p style="margin-bottom: 24px; font-size: 0.9rem;">Share your details. We respond within 24 hours.</p>
+            
+            <form onsubmit="event.preventDefault(); alert('Thank you. A care coordinator will contact you shortly.'); toggleModal('contact-modal');">
+                <div style="margin-bottom: 16px;">
+                    <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 8px;">Full Name</label>
+                    <input type="text" required style="width: 100%; padding: 12px; border: 1px solid #E2E8F0; border-radius: 8px; font-family: inherit;">
+                </div>
+                <div style="margin-bottom: 16px;">
+                    <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 8px;">Email Address</label>
+                    <input type="email" required style="width: 100%; padding: 12px; border: 1px solid #E2E8F0; border-radius: 8px; font-family: inherit;">
+                </div>
+                <div style="margin-bottom: 24px;">
+                    <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 8px;">How can we help?</label>
+                    <textarea rows="3" style="width: 100%; padding: 12px; border: 1px solid #E2E8F0; border-radius: 8px; font-family: inherit;"></textarea>
+                </div>
+                <button type="submit" class="btn-cta" style="width: 100%;">Submit Request</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- JS -->
+    <script>
+        // Modal Logic
+        function toggleModal(id) {
+            const modal = document.getElementById(id);
+            if (modal.classList.contains('active')) {
+                modal.classList.remove('active');
+            } else {
+                modal.classList.add('active');
+            }
+        }
+
+        function closeModal(event) {
+            if (event.target.classList.contains('modal-overlay')) {
+                event.target.classList.remove('active');
+            }
+        }
+
+        // Mobile Menu Logic
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery | Medi Connect International</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- 1. DESIGN SYSTEM & VARIABLES --- */
+        :root {
+            /* Colors */
+            --primary: #0F172A;       /* Deep Slate - Trust */
+            --primary-light: #334155;
+            --accent: #2563EB;        /* Royal Blue - Action */
+            --accent-glow: rgba(37, 99, 235, 0.4);
+            --secondary: #64748B;     /* Cool Gray - Text */
+            --bg-body: #F8FAFC;       /* Very light blue-grey */
+            --bg-surface: #FFFFFF;
+            --bg-glass: rgba(255, 255, 255, 0.85);
+            
+            /* Typography */
+            --font-heading: 'Plus Jakarta Sans', sans-serif;
+            --font-body: 'Inter', sans-serif;
+
+            /* Spacing & Borders */
+            --container-width: 1200px;
+            --radius-sm: 8px;
+            --radius-md: 16px;
+            --radius-lg: 24px;
+            --radius-full: 9999px;
+            
+            /* Shadows & Effects */
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+            --shadow-md: 0 10px 40px -10px rgba(0,0,0,0.08);
+            --shadow-lg: 0 20px 60px -15px rgba(0,0,0,0.15);
+            --glass-border: 1px solid rgba(255, 255, 255, 0.6);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        /* --- 2. RESET & BASE STYLES --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        html { scroll-behavior: smooth; font-size: 16px; }
+        
+        body { 
+            font-family: var(--font-body); 
+            background-color: var(--bg-body);
+            color: var(--secondary);
+            line-height: 1.6; 
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4 { 
+            font-family: var(--font-heading); 
+            color: var(--primary); 
+            font-weight: 700; 
+            line-height: 1.2; 
+            letter-spacing: -0.02em; 
+        }
+
+        p { color: var(--secondary); margin-bottom: 1rem; }
+        
+        a { text-decoration: none; color: inherit; transition: var(--transition); }
+        ul { list-style: none; }
+
+        /* --- 3. UTILITY CLASSES --- */
+        .container { max-width: var(--container-width); margin: 0 auto; padding: 0 24px; }
+        .flex { display: flex; }
+        .items-center { align-items: center; }
+        .justify-between { justify-content: space-between; }
+        .grid { display: grid; }
+        .text-center { text-align: center; }
+        
+        .section-py { padding-top: 100px; padding-bottom: 100px; }
+        
+        .bg-gradient-light {
+            background: linear-gradient(180deg, #FFFFFF 0%, #F1F5F9 100%);
+        }
+
+        /* --- 4. ANIMATIONS --- */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-up { animation: fadeInUp 0.8s ease-out forwards; }
+
+        /* --- 5. HEADER & NAV --- */
+        header {
+            position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+            width: calc(100% - 40px); max-width: var(--container-width);
+            background: var(--bg-glass);
+            backdrop-filter: blur(12px) saturate(180%);
+            -webkit-backdrop-filter: blur(12px) saturate(180%);
+            border: var(--glass-border);
+            border-radius: var(--radius-full);
+            padding: 12px 32px;
+            z-index: 1000;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        nav { display: flex; justify-content: space-between; align-items: center; position: relative; }
+        
+        .logo { 
+            font-family: var(--font-heading); 
+            font-weight: 800; 
+            font-size: 1.25rem; 
+            color: var(--primary); 
+            display: flex; align-items: center; gap: 10px; 
+            white-space: nowrap;
+        }
+        .logo i { color: var(--accent); font-size: 1.4rem; }
+        
+        .nav-links { display: flex; gap: 24px; align-items: center; }
+        .nav-link { 
+            font-size: 0.9rem; font-weight: 500; color: var(--primary-light); 
+            position: relative; white-space: nowrap;
+        }
+        .nav-link::after {
+            content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 2px;
+            background: var(--accent); transition: var(--transition);
+        }
+        .nav-link:hover { color: var(--accent); }
+        .nav-link:hover::after { width: 100%; }
+        .nav-link.active { color: var(--accent); font-weight: 700; }
+
+        .mobile-toggle {
+            display: none; 
+            font-size: 1.25rem; 
+            background: none; 
+            border: none; 
+            cursor: pointer; 
+            color: var(--primary);
+            z-index: 1002;
+        }
+
+        .mobile-menu {
+            display: none; 
+            position: absolute; 
+            top: 70px; 
+            left: 0; 
+            width: 100%; 
+            background: white; 
+            border-radius: 20px; 
+            padding: 20px; 
+            box-shadow: var(--shadow-lg);
+            flex-direction: column; 
+            gap: 16px; 
+            text-align: center;
+            z-index: 1001;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+        .mobile-menu.active { display: flex; animation: fadeInUp 0.3s ease-out; }
+        .mobile-menu a {
+            font-weight: 600; color: var(--primary); padding: 10px; border-radius: 8px;
+            transition: background 0.2s;
+        }
+        .mobile-menu a:hover { background: #F1F5F9; }
+
+        .btn-cta { 
+            background: var(--primary); color: white; 
+            padding: 10px 24px; border-radius: var(--radius-full); 
+            font-weight: 600; font-size: 0.9rem; 
+            border: none; cursor: pointer; 
+            transition: var(--transition);
+            box-shadow: 0 4px 14px rgba(15, 23, 42, 0.3);
+            white-space: nowrap;
+        }
+        .btn-cta:hover { 
+            transform: translateY(-2px); 
+            background: var(--accent); 
+            box-shadow: 0 6px 20px var(--accent-glow);
+        }
+
+        /* --- GALLERY PAGE STYLES --- */
+        .gallery-hero {
+            background-color: #F1F5F9;
+            padding-top: 160px;
+            padding-bottom: 80px;
+            text-align: center;
+        }
+        .gallery-hero h1 { font-size: 3rem; margin-bottom: 16px; color: var(--primary); }
+        .gallery-hero p { max-width: 600px; margin: 0 auto; color: var(--primary-light); }
+
+        .category-title {
+            font-size: 1.75rem;
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+        .category-subtitle {
+            font-size: 1rem;
+            color: var(--secondary);
+            margin-bottom: 40px;
+            max-width: 700px;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 32px;
+            margin-bottom: 80px;
+        }
+
+        .gallery-card {
+            background: white;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+            border: 1px solid rgba(0,0,0,0.03);
+        }
+
+        .gallery-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .img-wrap {
+            height: 260px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .gallery-card:hover .img-wrap img {
+            transform: scale(1.08);
+        }
+
+        .caption {
+            padding: 24px;
+        }
+
+        .caption h4 {
+            font-size: 1.1rem;
+            color: var(--primary);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .caption h4 i { color: var(--accent); font-size: 0.9rem; }
+        .caption p {
+            font-size: 0.9rem;
+            color: var(--secondary);
+            margin-bottom: 0;
+            line-height: 1.5;
+        }
+
+        /* Privacy Banner */
+        .privacy-banner {
+            background: #F0FDF4; /* Very light green */
+            border: 1px solid #BBF7D0;
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            margin-bottom: 60px;
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+        .privacy-icon {
+            font-size: 2.5rem;
+            color: #16A34A;
+            flex-shrink: 0;
+        }
+
+        /* CTA & Footer */
+        .cta-section {
+            background: var(--primary);
+            border-radius: 30px;
+            padding: 80px 40px;
+            text-align: center;
+            color: white;
+            position: relative; overflow: hidden;
+            margin-bottom: 80px;
+        }
+        .cta-section h2 { color: white; margin-bottom: 16px; }
+        .cta-section p { color: #94A3B8; max-width: 600px; margin: 0 auto 32px; }
+
+        footer {
+            border-top: 1px solid #E2E8F0; padding: 60px 0 30px; background: white;
+        }
+
+        /* MODAL */
+        .modal-overlay {
+            display: none; position: fixed; inset: 0; z-index: 2000;
+            background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(8px);
+            align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s;
+        }
+        .modal-overlay.active { display: flex; opacity: 1; }
+        .modal-content {
+            background: white; width: 90%; max-width: 500px;
+            padding: 40px; border-radius: var(--radius-lg);
+            position: relative; transform: scale(0.9); transition: transform 0.3s;
+        }
+        .modal-overlay.active .modal-content { transform: scale(1); }
+        .close-modal { position: absolute; top: 20px; right: 20px; background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--secondary); }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 768px) {
+            .gallery-hero h1 { font-size: 2.2rem; }
+            .gallery-grid { grid-template-columns: 1fr; }
+            .privacy-banner { flex-direction: column; text-align: center; }
+            
+            /* Nav Changes */
+            header { padding: 12px 20px; width: calc(100% - 40px); }
+            .nav-links { display: none; }
+            .mobile-toggle { display: block; }
+            nav > .btn-cta { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <nav>
+            <a href="index.html" class="logo">
+                <i class="fa-solid fa-heart-pulse"></i>
+                Medi Connect
+            </a>
+            
+            <!-- Desktop Navigation -->
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="about.html" class="nav-link">About Us</a>
+                <a href="gallery.html" class="nav-link active">Gallery</a>
+                <a href="services.html" class="nav-link">Services</a>
+                <a href="contact.html" class="nav-link">Contact Us</a>
+            </div>
+
+          <!-- Desktop CTA (Hidden on Mobile) -->
+<a href="contact.html" class="btn-cta">Get Started</a>
+
+            <!-- Mobile Hamburger -->
+            <button class="mobile-toggle" onclick="toggleMobileMenu()">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+
+            <!-- Mobile Menu Dropdown -->
+            <div class="mobile-menu" id="mobile-menu">
+                <a href="index.html" onclick="toggleMobileMenu()">Home</a>
+                <a href="about.html" onclick="toggleMobileMenu()">About Us</a>
+                <a href="gallery.html" onclick="toggleMobileMenu()">Gallery</a>
+                <a href="services.html" onclick="toggleMobileMenu()">Services</a>
+                <a href="contact.html" onclick="toggleMobileMenu()">Contact Us</a>
+                <button class="btn-cta" style="width:100%" onclick="toggleModal('contact-modal'); toggleMobileMenu();">Get Started</button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- 1. HERO SECTION -->
+    <section class="gallery-hero">
+        <div class="container animate-up">
+            <h1>Your Care Environment</h1>
+            <p>A transparent look at the hospitals, facilities, and surroundings where your healing journey begins.</p>
+        </div>
+    </section>
+
+    <!-- 2. HOSPITAL BUILDINGS & INTERIORS -->
+    <section class="section-py">
+        <div class="container">
+            <div class="text-center">
+                <h2 class="category-title">Hospital Infrastructure</h2>
+                <p class="category-subtitle">Modern facilities designed for accessibility, hygiene, and peace of mind.</p>
+            </div>
+
+            <div class="gallery-grid">
+                <div class="gallery-card">
+                    <div class="img-wrap">
+                        <img src="https://picsum.photos/seed/hospbuilding2/600/400" alt="Hospital Building Exterior">
+                    </div>
+                    <div class="caption">
+                        <h4><i class="fa-solid fa-hospital"></i> Modern Architecture</h4>
+                        <p>Designed to be easily accessible and welcoming, reducing stress upon arrival.</p>
+                    </div>
+                </div>
+                <div class="gallery-card">
+                    <div class="img-wrap">
+                        <img src="https://picsum.photos/seed/receptionarea/600/400" alt="Hospital Reception">
+                    </div>
+                    <div class="caption">
+                        <h4><i class="fa-solid fa-concierge-bell"></i> Welcoming Reception</h4>
+                        <p>Spacious, well-lit lobbies with international guest services to assist with navigation.</p>
+                    </div>
+                </div>
+                <div class="gallery-card">
+                    <div class="img-wrap">
+                        <img src="https://picsum.photos/seed/corridors/600/400" alt="Clean Corridors">
+                    </div>
+                    <div class="caption">
+                        <h4><i class="fa-solid fa-person-walking"></i> Clean Pathways</h4>
+                        <p>Wide, sanitized corridors ensuring smooth movement for patients and equipment.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. TREATMENT & DIAGNOSTIC ENVIRONMENTS -->
+    <section class="section-py bg-gradient-light">
+        <div class="container">
+            <div class="text-center">
+                <h2 class="category-title">Clinical Excellence</h2>
+                <p class="category-subtitle">Advanced technology and sterile environments for accurate diagnosis and treatment.</p>
+            </div>
+
+            <div class="gallery-grid">
+                <div class="gallery-card">
+                    <div class="img-wrap">
+                        <img src="https://picsum.photos/seed/mri/600/400" alt="MRI Machine">
+                    </div>
+                    <div class="caption">
+                        <h4><i class="fa-solid fa-microscope"></i> Advanced Diagnostics</h4>
+                        <p>State-of-the-art imaging equipment ensuring precise and timely medical assessments.</p>
+                    </div>
+                </div>
+                <div class="gallery-card">
+                    <div class="img-wrap">
+                        <img src="https://picsum.photos/seed/operating/600/400" alt="Operating Theatre">
+                    </div>
+                    <div class="caption">
+                        <h4><i class="fa-solid fa-user-doctor"></i> Modular OTs</h4>
+                        <p>HEPA-filtered operating theaters adhering to international infection control standards.</p>
+                    </div>
+                </div>
+                <div class="gallery-card">
+                    <div class="img-wrap">
+                        <img src="https://picsum.photos/seed/lab/600/400" alt="Pathology Lab">
+                    </div>
+                    <div class="caption">
+                        <h4><i class="fa-solid fa-flask"></i> Accredited Labs</h4>
+                        <p>In-house pathology laboratories for rapid and reliable test results.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. PATIENT SUPPORT & RECOVERY -->
+    <section class="section-py">
+        <div class="container">
+            <div class="text-center">
+                <h2 class="category-title">Comfort & Recovery</h2>
+                <p class="category-subtitle">Spaces designed for rest, family support, and holistic healing.</p>
+            </div>
+
+            <div class="gallery-grid">
+                <div class="gallery-card">
+                    <div class="img-wrap">
+                        <img src="https://picsum.photos/seed/patientroom/600/400" alt="Private Patient Room">
+                    </div>
+                    <div class="caption">
+                        <h4><i class="fa-solid fa-bed-pulse"></i> Private Rooms</h4>
+                        <p>Comfortable, private rooms that allow family members to stay close by during treatment.</p>
+                    </div>
+                </div>
+                <div class="gallery-card">
+                    <div class="img-wrap">
+                        <img src="https://picsum.photos/seed/lounge/600/400" alt="Waiting Lounge">
+                    </div>
+                    <div class="caption">
+                        <h4><i class="fa-solid fa-couch"></i> Patient Lounges</h4>
+                        <p>Calm waiting areas designed to reduce anxiety for patients and attendants.</p>
+                    </div>
+                </div>
+                <div class="gallery-card">
+                    <div class="img-wrap">
+                        <img src="https://picsum.photos/seed/garden/600/400" alt="Healing Garden">
+                    </div>
+                    <div class="caption">
+                        <h4><i class="fa-solid fa-leaf"></i> Healing Gardens</h4>
+                        <p>Green spaces and gardens providing a serene environment for mental recovery.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. ACCOMMODATION & SURROUNDINGS -->
+    <section class="section-py bg-gradient-light">
+        <div class="container">
+            <div class="text-center">
+                <h2 class="category-title">Your Stay in India</h2>
+                <p class="category-subtitle">Safe, convenient accommodation and the vibrant culture of Tamil Nadu.</p>
+            </div>
+
+            <div class="gallery-grid">
+                <div class="gallery-card">
+                    <div class="img-wrap">
+                        <img src="https://picsum.photos/seed/hotel/600/400" alt="Hotel Accommodation">
+                    </div>
+                    <div class="caption">
+                        <h4><i class="fa-solid fa-hotel"></i> Partner Hotels</h4>
+                        <p>Hygienic, affordable hotels located within close proximity to the hospitals.</p>
+                    </div>
+                </div>
+                <div class="gallery-card">
+                    <div class="img-wrap">
+                        <img src="https://picsum.photos/seed/food/600/400" alt="Dining Options">
+                    </div>
+                    <div class="caption">
+                        <h4><i class="fa-solid fa-utensils"></i> Nutritional Dining</h4>
+                        <p>Access to dietary-appropriate food options, including international cuisine.</p>
+                    </div>
+                </div>
+                <div class="gallery-card">
+                    <div class="img-wrap">
+                        <img src="https://picsum.photos/seed/chennai/600/400" alt="City View">
+                    </div>
+                    <div class="caption">
+                        <h4><i class="fa-solid fa-city"></i> Local Surroundings</h4>
+                        <p>A safe, culturally rich environment that welcomes international visitors warmly.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. PRIVACY STATEMENT -->
+    <section class="container">
+        <div class="privacy-banner">
+            <div class="privacy-icon">
+                <i class="fa-solid fa-shield-halved"></i>
+            </div>
+            <div>
+                <h3>Privacy Commitment</h3>
+                <p style="margin-bottom: 0;">We strictly respect patient privacy and confidentiality. The images displayed in this gallery are representative of our partner facilities and environments. We do not publish images of identifiable patients undergoing active treatment.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. CTA SECTION -->
+    <section class="container" style="margin-top: 60px;">
+        <div class="cta-section">
+            <div style="position: absolute; top: -50%; right: -10%; width: 400px; height: 400px; background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%); border-radius: 50%;"></div>
+            <h2>Request a Guided Overview</h2>
+            <p>If you have specific questions about the facilities or accommodation, our team is ready to provide a detailed walkthrough.</p>
+            <button class="btn-cta" style="background: white; color: var(--primary); position: relative; z-index: 2;" onclick="toggleModal('contact-modal')">Contact Us for Details</button>
+        </div>
+    </section>
+
+    <!-- 8. FOOTER -->
+    <footer>
+        <div class="container">
+            <div style="border: 1px solid #E2E8F0; background: #F8FAFC; padding: 20px; border-radius: var(--radius-md); margin-bottom: 40px; font-size: 0.85rem;">
+                <strong><i class="fa-solid fa-triangle-exclamation"></i> MEDICAL DISCLAIMER:</strong><br>
+                Medi Connect International is not a medical provider and does not provide medical advice. All diagnosis, treatment, and medical care are provided directly by licensed hospitals and doctors. We act solely as a coordination facilitator.
+            </div>
+            
+            <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; margin-bottom: 40px;">
+                <div>
+                    <h4 style="margin-bottom: 16px;">Medi Connect International</h4>
+                    <p style="font-size: 0.9rem;">Bridging the gap between world-class oncology care and patients around the globe.</p>
+                </div>
+                <div>
+                    <h4 style="margin-bottom: 16px;">Quick Links</h4>
+                    <ul style="font-size: 0.9rem;">
+                        <li style="margin-bottom: 8px;"><a href="index.html">Home</a></li>
+                        <li style="margin-bottom: 8px;"><a href="about.html">About Us</a></li>
+                        <li style="margin-bottom: 8px;"><a href="services.html">Services</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 style="margin-bottom: 16px;">Contact</h4>
+                    <p style="font-size: 0.9rem;">help@mediconnect.int</p>
+                    <p style="font-size: 0.9rem;">+1 (555) 123-4567</p>
+                </div>
+            </div>
+            
+            <div class="text-center" style="border-top: 1px solid #E2E8F0; padding-top: 30px; font-size: 0.85rem; color: #94A3B8;">
+                &copy; 2023 Medi Connect International. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- CONTACT MODAL -->
+    <div id="contact-modal" class="modal-overlay" onclick="closeModal(event)">
+        <div class="modal-content">
+            <button class="close-modal" onclick="toggleModal('contact-modal')">&times;</button>
+            <h3 style="margin-bottom: 8px;">Start Confidential Consultation</h3>
+            <p style="margin-bottom: 24px; font-size: 0.9rem;">Share your details. We respond within 24 hours.</p>
+            
+            <form onsubmit="event.preventDefault(); alert('Thank you. A care coordinator will contact you shortly.'); toggleModal('contact-modal');">
+                <div style="margin-bottom: 16px;">
+                    <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 8px;">Full Name</label>
+                    <input type="text" required style="width: 100%; padding: 12px; border: 1px solid #E2E8F0; border-radius: 8px; font-family: inherit;">
+                </div>
+                <div style="margin-bottom: 16px;">
+                    <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 8px;">Email Address</label>
+                    <input type="email" required style="width: 100%; padding: 12px; border: 1px solid #E2E8F0; border-radius: 8px; font-family: inherit;">
+                </div>
+                <div style="margin-bottom: 24px;">
+                    <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 8px;">How can we help?</label>
+                    <textarea rows="3" style="width: 100%; padding: 12px; border: 1px solid #E2E8F0; border-radius: 8px; font-family: inherit;"></textarea>
+                </div>
+                <button type="submit" class="btn-cta" style="width: 100%;">Submit Request</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- JS -->
+    <script>
+        // Modal Logic
+        function toggleModal(id) {
+            const modal = document.getElementById(id);
+            if (modal.classList.contains('active')) {
+                modal.classList.remove('active');
+            } else {
+                modal.classList.add('active');
+            }
+        }
+
+        function closeModal(event) {
+            if (event.target.classList.contains('modal-overlay')) {
+                event.target.classList.remove('active');
+            }
+        }
+
+        // Mobile Menu Logic
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>

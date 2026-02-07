@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us | Medi Connect International</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- 1. DESIGN SYSTEM & VARIABLES --- */
+        :root {
+            /* Colors */
+            --primary: #0F172A;       /* Deep Slate - Trust */
+            --primary-light: #334155;
+            --accent: #2563EB;        /* Royal Blue - Action */
+            --accent-glow: rgba(37, 99, 235, 0.4);
+            --secondary: #64748B;     /* Cool Gray - Text */
+            --bg-body: #F8FAFC;       /* Very light blue-grey */
+            --bg-surface: #FFFFFF;
+            --bg-glass: rgba(255, 255, 255, 0.85);
+            
+            /* Typography */
+            --font-heading: 'Plus Jakarta Sans', sans-serif;
+            --font-body: 'Inter', sans-serif;
+
+            /* Spacing & Borders */
+            --container-width: 1200px;
+            --radius-sm: 8px;
+            --radius-md: 16px;
+            --radius-lg: 24px;
+            --radius-full: 9999px;
+            
+            /* Shadows & Effects */
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+            --shadow-md: 0 10px 40px -10px rgba(0,0,0,0.08);
+            --shadow-lg: 0 20px 60px -15px rgba(0,0,0,0.15);
+            --glass-border: 1px solid rgba(255, 255, 255, 0.6);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        /* --- 2. RESET & BASE STYLES --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        html { scroll-behavior: smooth; font-size: 16px; }
+        
+        body { 
+            font-family: var(--font-body); 
+            background-color: var(--bg-body);
+            color: var(--secondary);
+            line-height: 1.6; 
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4 { 
+            font-family: var(--font-heading); 
+            color: var(--primary); 
+            font-weight: 700; 
+            line-height: 1.2; 
+            letter-spacing: -0.02em; 
+        }
+
+        p { color: var(--secondary); margin-bottom: 1rem; }
+        
+        a { text-decoration: none; color: inherit; transition: var(--transition); }
+        ul { list-style: none; }
+
+        /* --- 3. UTILITY CLASSES --- */
+        .container { max-width: var(--container-width); margin: 0 auto; padding: 0 24px; }
+        .flex { display: flex; }
+        .items-center { align-items: center; }
+        .justify-between { justify-content: space-between; }
+        .grid { display: grid; }
+        .text-center { text-align: center; }
+        
+        .section-py { padding-top: 100px; padding-bottom: 100px; }
+        
+        .bg-gradient-light {
+            background: linear-gradient(180deg, #FFFFFF 0%, #F1F5F9 100%);
+        }
+
+        /* --- 4. ANIMATIONS --- */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-up { animation: fadeInUp 0.8s ease-out forwards; }
+
+        /* --- 5. HEADER & NAV --- */
+        header {
+            position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+            width: calc(100% - 40px); max-width: var(--container-width);
+            background: var(--bg-glass);
+            backdrop-filter: blur(12px) saturate(180%);
+            -webkit-backdrop-filter: blur(12px) saturate(180%);
+            border: var(--glass-border);
+            border-radius: var(--radius-full);
+            padding: 12px 32px;
+            z-index: 1000;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        nav { display: flex; justify-content: space-between; align-items: center; position: relative; }
+        
+        .logo { 
+            font-family: var(--font-heading); 
+            font-weight: 800; 
+            font-size: 1.25rem; 
+            color: var(--primary); 
+            display: flex; align-items: center; gap: 10px; 
+            white-space: nowrap;
+        }
+        .logo i { color: var(--accent); font-size: 1.4rem; }
+        
+        .nav-links { display: flex; gap: 24px; align-items: center; }
+        .nav-link { 
+            font-size: 0.9rem; font-weight: 500; color: var(--primary-light); 
+            position: relative; white-space: nowrap;
+        }
+        .nav-link::after {
+            content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 2px;
+            background: var(--accent); transition: var(--transition);
+        }
+        .nav-link:hover { color: var(--accent); }
+        .nav-link:hover::after { width: 100%; }
+        .nav-link.active { color: var(--accent); font-weight: 700; }
+
+        .mobile-toggle {
+            display: none; 
+            font-size: 1.25rem; 
+            background: none; 
+            border: none; 
+            cursor: pointer; 
+            color: var(--primary);
+            z-index: 1002;
+        }
+
+        .mobile-menu {
+            display: none; 
+            position: absolute; 
+            top: 70px; 
+            left: 0; 
+            width: 100%; 
+            background: white; 
+            border-radius: 20px; 
+            padding: 20px; 
+            box-shadow: var(--shadow-lg);
+            flex-direction: column; 
+            gap: 16px; 
+            text-align: center;
+            z-index: 1001;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+        .mobile-menu.active { display: flex; animation: fadeInUp 0.3s ease-out; }
+        .mobile-menu a {
+            font-weight: 600; color: var(--primary); padding: 10px; border-radius: 8px;
+            transition: background 0.2s;
+        }
+        .mobile-menu a:hover { background: #F1F5F9; }
+
+        .btn-cta { 
+            background: var(--primary); color: white; 
+            padding: 10px 24px; border-radius: var(--radius-full); 
+            font-weight: 600; font-size: 0.9rem; 
+            border: none; cursor: pointer; 
+            transition: var(--transition);
+            box-shadow: 0 4px 14px rgba(15, 23, 42, 0.3);
+            white-space: nowrap;
+        }
+        .btn-cta:hover { 
+            transform: translateY(-2px); 
+            background: var(--accent); 
+            box-shadow: 0 6px 20px var(--accent-glow);
+        }
+
+        /* --- CONTACT PAGE SPECIFIC --- */
+        .contact-hero {
+            background-color: #F1F5F9;
+            padding-top: 160px;
+            padding-bottom: 80px;
+            text-align: center;
+        }
+        .contact-hero h1 { font-size: 3rem; margin-bottom: 24px; color: var(--primary); }
+        .contact-hero p { max-width: 700px; margin: 0 auto 32px; font-size: 1.15rem; color: var(--primary-light); }
+
+        .contact-layout {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 60px;
+            margin-top: 40px;
+        }
+
+        /* Form Styling */
+        .form-card {
+            background: white;
+            padding: 40px;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            border: 1px solid rgba(0,0,0,0.03);
+        }
+
+        .form-group { margin-bottom: 24px; }
+        
+        .form-label {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+
+        .form-input, .form-select, .form-textarea {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid #E2E8F0;
+            border-radius: var(--radius-sm);
+            font-family: var(--font-body);
+            font-size: 1rem;
+            color: var(--primary);
+            transition: var(--transition);
+            background: #F8FAFC;
+        }
+
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .form-textarea { resize: vertical; min-height: 150px; }
+
+        .btn-submit {
+            width: 100%;
+            padding: 16px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: var(--radius-md);
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex; align-items: center; justify-content: center; gap: 12px;
+        }
+        .btn-submit:hover { background: var(--accent); transform: translateY(-2px); }
+
+        /* Info Panel Styling */
+        .info-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+        }
+
+        .info-card {
+            background: #F0F9FF;
+            border: 1px solid #BAE6FD;
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            text-align: center;
+        }
+
+        .info-card h3 { color: var(--primary); margin-bottom: 8px; }
+        .info-card p { margin-bottom: 20px; color: var(--primary-light); }
+
+        .contact-option {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px;
+            background: white;
+            border-radius: var(--radius-md);
+            border: 1px solid #E2E8F0;
+            transition: var(--transition);
+        }
+        .contact-option:hover { border-color: var(--accent); transform: translateY(-2px); }
+
+        .contact-icon {
+            width: 40px; height: 40px;
+            background: #EFF6FF;
+            color: var(--accent);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .contact-details strong { display: block; color: var(--primary); font-size: 0.9rem; }
+        .contact-details span { font-size: 0.85rem; color: var(--secondary); }
+
+        /* Confidentiality Banner */
+        .confidentiality-banner {
+            margin-top: 32px;
+            background: #ECFDF5;
+            border: 1px solid #A7F3D0;
+            border-radius: var(--radius-md);
+            padding: 20px;
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+        }
+        .confidentiality-icon {
+            color: #059669;
+            font-size: 1.2rem;
+            margin-top: 3px;
+        }
+        .confidentiality-text h4 { color: #065F46; font-size: 0.95rem; margin-bottom: 4px; }
+        .confidentiality-text p { font-size: 0.85rem; margin-bottom: 0; color: #064E3B; }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid #E2E8F0; padding: 60px 0 30px; background: white;
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 900px) {
+            .contact-hero h1 { font-size: 2.2rem; }
+            .contact-layout { grid-template-columns: 1fr; }
+            
+            /* Nav Changes */
+            header { padding: 12px 20px; width: calc(100% - 40px); }
+            .nav-links { display: none; }
+            .mobile-toggle { display: block; }
+            nav > .btn-cta { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <nav>
+            <a href="index.html" class="logo">
+                <i class="fa-solid fa-heart-pulse"></i>
+                Medi Connect
+            </a>
+            
+            <!-- Desktop Navigation -->
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="about.html" class="nav-link">About Us</a>
+                <a href="gallery.html" class="nav-link">Gallery</a>
+                <a href="services.html" class="nav-link">Services</a>
+                <a href="contact.html" class="nav-link active">Contact Us</a>
+            </div>
+
+            <!-- Desktop CTA (Hidden on Contact Page as form is main) -->
+            <!-- Optional: Keep or hide. Kept for consistency or change to 'Back to Home' -->
+            <a href="index.html" class="btn-cta" style="display: none;">Back to Home</a>
+
+            <!-- Mobile Hamburger -->
+            <button class="mobile-toggle" onclick="toggleMobileMenu()">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+
+            <!-- Mobile Menu Dropdown -->
+            <div class="mobile-menu" id="mobile-menu">
+                <a href="index.html" onclick="toggleMobileMenu()">Home</a>
+                <a href="about.html" onclick="toggleMobileMenu()">About Us</a>
+                <a href="gallery.html" onclick="toggleMobileMenu()">Gallery</a>
+                <a href="services.html" onclick="toggleMobileMenu()">Services</a>
+                <a href="contact.html" onclick="toggleMobileMenu()">Contact Us</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- 1. HERO SECTION -->
+    <section class="contact-hero">
+        <div class="container animate-up">
+            <h1>We Are Here to Listen</h1>
+            <p>Reaching out is the first step. Whether you are exploring options or ready to plan your journey, we will treat your inquiry with the utmost care, respect, and confidentiality.</p>
+        </div>
+    </section>
+
+    <!-- 2. MAIN CONTENT: FORM & INFO -->
+    <section class="section-py bg-gradient-light">
+        <div class="container">
+            <div class="contact-layout">
+                
+                <!-- LEFT: CONTACT FORM -->
+                <div class="form-card">
+                    <h2 style="margin-bottom: 32px;">Send Us a Message</h2>
+                    <form onsubmit="event.preventDefault(); handleFormSubmit();">
+                        
+                        <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 24px;">
+                            <div class="form-group">
+                                <label class="form-label">Full Name</label>
+                                <input type="text" class="form-input" placeholder="John Doe" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Country</label>
+                                <input type="text" class="form-input" placeholder="e.g. Kenya" required>
+                            </div>
+                        </div>
+
+                        <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 24px;">
+                            <div class="form-group">
+                                <label class="form-label">I am a...</label>
+                                <select class="form-select">
+                                    <option value="patient">Patient</option>
+                                    <option value="caregiver">Caregiver / Family Member</option>
+                                    <option value="doctor">Referring Doctor</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Email Address</label>
+                                <input type="email" class="form-input" placeholder="john@example.com" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Phone Number (Optional)</label>
+                            <input type="tel" class="form-input" placeholder="+1 (555) 000-0000">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">How Can We Help?</label>
+                            <textarea class="form-textarea" placeholder="Please share your medical question or the type of treatment you are looking for. (Medical details are optional)"></textarea>
+                        </div>
+
+                        <!-- Confidentiality Reminder -->
+                        <div class="confidentiality-banner">
+                            <div class="confidentiality-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                            <div class="confidentiality-text">
+                                <h4>100% Confidential</h4>
+                                <p>Your information is handled securely and ethically. We never share your details without consent.</p>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn-submit" style="margin-top: 32px;">
+                            Send Message <i class="fa-solid fa-paper-plane"></i>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- RIGHT: ADDITIONAL INFO -->
+                <div class="info-panel">
+                    
+                    <div class="info-card">
+                        <i class="fa-regular fa-comments" style="font-size: 2.5rem; color: var(--accent); margin-bottom: 16px;"></i>
+                        <h3>Prefer to Chat?</h3>
+                        <p>If you have immediate questions, connect with us directly via WhatsApp for a quick response.</p>
+                        <a href="#" class="btn-cta" style="background: #25D366; box-shadow: 0 4px 14px rgba(37, 211, 102, 0.3);">
+                            <i class="fa-brands fa-whatsapp"></i> Chat on WhatsApp
+                        </a>
+                    </div>
+
+                    <div>
+                        <h3 style="margin-bottom: 20px;">Other Ways to Reach Us</h3>
+                        
+                        <div class="contact-option">
+                            <div class="contact-icon"><i class="fa-solid fa-envelope"></i></div>
+                            <div class="contact-details">
+                                <strong>Email Us</strong>
+                                <span>help@mediconnect.int</span>
+                            </div>
+                        </div>
+
+                        <div class="contact-option">
+                            <div class="contact-icon"><i class="fa-solid fa-phone"></i></div>
+                            <div class="contact-details">
+                                <strong>Call Us</strong>
+                                <span>+1 (555) 123-4567</span>
+                            </div>
+                        </div>
+
+                        <div class="contact-option">
+                            <div class="contact-icon"><i class="fa-solid fa-location-dot"></i></div>
+                            <div class="contact-details">
+                                <strong>Office</strong>
+                                <span>Chennai, Tamil Nadu, India</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="background: white; padding: 24px; border-radius: var(--radius-md); border: 1px solid #E2E8F0;">
+                        <h4 style="margin-bottom: 12px;">Office Hours</h4>
+                        <ul style="font-size: 0.9rem; color: var(--secondary);">
+                            <li class="flex justify-between" style="margin-bottom: 8px;"><span>Mon - Fri:</span> <strong>9:00 AM - 6:00 PM (IST)</strong></li>
+                            <li class="flex justify-between"><span>Sat:</span> <strong>10:00 AM - 2:00 PM (IST)</strong></li>
+                        </ul>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. CALM CTA -->
+    <section class="container" style="margin-bottom: 80px;">
+        <div style="text-align: center; max-width: 800px; margin: 0 auto;">
+            <h2 style="font-size: 2rem; margin-bottom: 16px;">You Don't Have to Navigate This Alone</h2>
+            <p>Our team is ready to provide the guidance and support you need during this time. Reach out today.</p>
+        </div>
+    </section>
+
+    <!-- 4. FOOTER -->
+    <footer>
+        <div class="container">
+            <div style="border: 1px solid #E2E8F0; background: #F8FAFC; padding: 20px; border-radius: var(--radius-md); margin-bottom: 40px; font-size: 0.85rem;">
+                <strong><i class="fa-solid fa-triangle-exclamation"></i> MEDICAL DISCLAIMER:</strong><br>
+                Medi Connect International is not a medical provider and does not provide medical advice. All diagnosis, treatment, and medical care are provided directly by licensed hospitals and doctors. We act solely as a coordination facilitator.
+            </div>
+            
+            <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; margin-bottom: 40px;">
+                <div>
+                    <h4 style="margin-bottom: 16px;">Medi Connect International</h4>
+                    <p style="font-size: 0.9rem;">Bridging the gap between world-class oncology care and patients around the globe.</p>
+                </div>
+                <div>
+                    <h4 style="margin-bottom: 16px;">Quick Links</h4>
+                    <ul style="font-size: 0.9rem;">
+                        <li style="margin-bottom: 8px;"><a href="index.html">Home</a></li>
+                        <li style="margin-bottom: 8px;"><a href="about.html">About Us</a></li>
+                        <li style="margin-bottom: 8px;"><a href="services.html">Services</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 style="margin-bottom: 16px;">Contact</h4>
+                    <p style="font-size: 0.9rem;">help@mediconnect.int</p>
+                    <p style="font-size: 0.9rem;">+1 (555) 123-4567</p>
+                </div>
+            </div>
+            
+            <div class="text-center" style="border-top: 1px solid #E2E8F0; padding-top: 30px; font-size: 0.85rem; color: #94A3B8;">
+                &copy; 2023 Medi Connect International. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- JS -->
+    <script>
+        // Mobile Menu Logic
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('active');
+        }
+
+        // Form Handling (Simulation)
+        function handleFormSubmit() {
+            const btn = document.querySelector('.btn-submit');
+            const originalText = btn.innerHTML;
+            
+            // Loading state
+            btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Sending...';
+            btn.style.opacity = '0.8';
+            
+            setTimeout(() => {
+                // Success state
+                btn.innerHTML = '<i class="fa-solid fa-check"></i> Message Sent';
+                btn.style.background = '#059669'; // Green
+                btn.style.opacity = '1';
+                
+                // Show a simple alert or toast logic here if needed, 
+                // but changing the button is a nice UI touch.
+                alert("Thank you for reaching out. A care coordinator will review your message and contact you within 24 hours.");
+                
+                // Reset after delay
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                    btn.style.background = ''; // Revert to CSS default
+                    document.querySelector('form').reset();
+                }, 3000);
+            }, 1500);
+        }
+    </script>
+</body>
+</html>
