@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Medi Connect | Trusted Cancer Care Coordination</title>
+    <title>Medi Connect International | Global Medical Travel Coordination</title>
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -59,7 +59,6 @@
             position: relative;
         }
 
-        /* Subtle Noise Texture for 'Premium' feel */
         body::before {
             content: "";
             position: fixed;
@@ -73,13 +72,14 @@
             font-family: var(--font-heading); 
             color: var(--primary); 
             font-weight: 700; 
-            line-height: 1.1;
+            line-height: 1.2;
             letter-spacing: -0.02em; 
         }
 
         h1 { font-size: 3.5rem; }
         h2 { font-size: 2.5rem; margin-bottom: 1rem; }
         h3 { font-size: 1.5rem; margin-bottom: 0.5rem; }
+        h4 { font-size: 1.15rem; }
         
         p { margin-bottom: 1.5rem; color: var(--secondary); font-size: 1.05rem; }
         
@@ -134,7 +134,7 @@
         .logo { 
             font-family: var(--font-heading); 
             font-weight: 800; 
-            font-size: 1.35rem; 
+            font-size: 1.25rem; 
             color: var(--primary); 
             display: flex; align-items: center; gap: 10px; 
             letter-spacing: -0.03em;
@@ -163,6 +163,7 @@
             transition: var(--transition-smooth);
             display: inline-flex; align-items: center; gap: 8px;
             font-size: 0.95rem;
+            border: none;
         }
         .btn-primary {
             background: var(--primary);
@@ -212,7 +213,6 @@
             overflow: hidden;
         }
 
-        /* Background Gradient Mesh */
         .hero-bg {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -223,7 +223,7 @@
         }
 
         .hero-content {
-            max-width: 800px; margin: 0 auto; text-align: center;
+            max-width: 850px; margin: 0 auto; text-align: center;
         }
 
         .hero-badge {
@@ -245,11 +245,56 @@
         
         .section-header {
             text-align: center;
-            max-width: 600px;
+            max-width: 700px;
             margin: 0 auto 60px;
         }
+        .section-header.left {
+            text-align: left;
+            margin: 0 0 40px 0;
+        }
 
-        /* --- 7. FEATURED PARTNER (THANGAM) --- */
+        /* --- 7. GLOBAL LANDSCAPE SECTION --- */
+        .landscape-section {
+            background: white;
+        }
+        
+        /* Card Grid for Regions */
+        .region-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-top: 40px;
+        }
+        
+        .region-card {
+            background: #F8FAFC;
+            border: 1px solid #E2E8F0;
+            border-radius: 24px;
+            padding: 32px;
+            transition: var(--transition-smooth);
+        }
+        
+        .region-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.05);
+        }
+        
+        .region-icon {
+            width: 50px; height: 50px;
+            background: white;
+            border-radius: 12px;
+            display: flex;
+            align-items: center; justify-content: center;
+            font-size: 1.5rem;
+            color: var(--accent);
+            margin-bottom: 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+        
+        .region-card h3 { font-size: 1.25rem; }
+
+        /* --- 8. PARTNER SECTION (RESTORED) --- */
         .featured-wrapper {
             background: white;
             border-radius: 40px;
@@ -258,7 +303,7 @@
             border: 1px solid rgba(0,0,0,0.04);
             display: grid;
             grid-template-columns: 1fr 1fr;
-            min-height: 600px;
+            min-height: 550px;
         }
 
         .featured-img {
@@ -271,7 +316,7 @@
             content: ''; position: absolute; inset: 0;
             background: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.3) 100%);
         }
-
+        
         .featured-content {
             padding: 60px;
             display: flex; flex-direction: column; justify-content: center;
@@ -285,14 +330,14 @@
             font-weight: 700; font-family: var(--font-heading);
             width: fit-content; margin-bottom: 24px;
         }
-
+        
         .stat-grid {
             display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 40px;
         }
         .stat-item h4 { font-size: 2rem; color: var(--primary); margin-bottom: 4px; }
         .stat-item p { font-size: 0.9rem; margin: 0; }
 
-        /* --- 8. SERVICES (Cards) --- */
+        /* --- 9. SERVICES (Cards) --- */
         .services-grid {
             display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;
         }
@@ -322,7 +367,7 @@
             transform: scale(1.1) rotate(5deg);
         }
 
-        /* --- 9. TIMELINE (Process) --- */
+        /* --- 10. TIMELINE (Process) --- */
         .timeline-container {
             position: relative;
             max-width: 900px;
@@ -353,7 +398,7 @@
             border: 1px solid rgba(0,0,0,0.04);
         }
 
-        /* --- 10. CTA SECTION --- */
+        /* --- 11. CTA SECTION --- */
         .cta-section {
             background: var(--primary);
             border-radius: 32px;
@@ -366,7 +411,6 @@
         .cta-section h2 { color: white; }
         .cta-section p { color: #94A3B8; max-width: 600px; margin: 0 auto 32px; }
         
-        /* Floating abstract circle */
         .cta-section::before {
             content: ''; position: absolute; top: -100px; right: -100px;
             width: 300px; height: 300px;
@@ -374,7 +418,7 @@
             border-radius: 50%;
         }
 
-        /* --- 11. FOOTER --- */
+        /* --- 12. FOOTER --- */
         footer {
             background: #F8FAFC; border-top: 1px solid #E2E8F0;
             padding: 60px 0 20px;
@@ -385,8 +429,11 @@
         .footer-col h5 { color: var(--primary); margin-bottom: 20px; font-weight: 700; }
         .footer-col ul li { margin-bottom: 12px; }
         .footer-col a:hover { color: var(--accent); }
+        .footer-disclaimer {
+            font-size: 0.8rem; color: #94A3B8; max-width: 800px; margin: 0 auto 20px; text-align: center;
+        }
 
-        /* --- 12. CUSTOM TOAST NOTIFICATION --- */
+        /* --- 13. CUSTOM TOAST NOTIFICATION --- */
         .toast-container {
             position: fixed; bottom: 24px; right: 24px; z-index: 2000;
             display: flex; flex-direction: column; gap: 12px;
@@ -403,7 +450,7 @@
         .toast.show { transform: translateX(0); }
         .toast i { color: var(--accent); font-size: 1.2rem; }
 
-        /* --- 13. MODAL --- */
+        /* --- 14. MODAL --- */
         .modal-overlay {
             position: fixed; inset: 0; z-index: 1500;
             background: rgba(15, 23, 42, 0.4); backdrop-filter: blur(4px);
@@ -429,12 +476,13 @@
         }
         .form-input:focus { outline: none; border-color: var(--accent); }
 
-        /* --- 14. RESPONSIVE --- */
+        /* --- 15. RESPONSIVE --- */
         @media (max-width: 1024px) {
             .featured-wrapper { grid-template-columns: 1fr; }
             .featured-img { height: 300px; }
             .featured-content { padding: 40px; }
             .footer-grid { grid-template-columns: 1fr 1fr; }
+            .region-grid { grid-template-columns: 1fr; }
         }
 
         @media (max-width: 768px) {
@@ -444,7 +492,6 @@
             .mobile-toggle { display: block; }
             .hero { padding-top: 140px; }
             .hero-actions { flex-direction: column; }
-            .stat-grid { grid-template-columns: 1fr; }
             .timeline-line { left: 15px; }
             .timeline-marker { left: 4px; width: 20px; height: 20px; }
             .timeline-item { padding-left: 50px; }
@@ -457,37 +504,32 @@
     <!-- Header -->
     <header>
         <div class="nav-bar">
-            <!-- Logo links back to index (or could be current page) -->
             <a href="index.html" class="logo">
                 <i class="fa-solid fa-heart-pulse"></i>
                 Medi Connect
             </a>
             
-            <!-- Desktop Navigation Links -->
             <nav class="nav-links">
-                <a href="about.html" class="nav-link">About Us</a>
-                <a href="gallery.html" class="nav-link">Gallery</a>
-                <a href="services.html" class="nav-link">Services</a>
-                <a href="contact.html" class="nav-link">Contact Us</a>
+                <a href="#landscape" class="nav-link">Global Scope</a>
+                <a href="#partner" class="nav-link">Partner Hospital</a>
+                <a href="#services" class="nav-link">Services</a>
+                <a href="#process" class="nav-link">The Journey</a>
             </nav>
 
-            <!-- Desktop CTA -->
-            <a href="contact.html" class="btn btn-primary btn-desktop-cta">
+            <a href="#contact" class="btn btn-primary btn-desktop-cta">
                 Get Started
             </a>
 
-            <!-- Mobile Toggle -->
             <button class="mobile-toggle" onclick="toggleMenu()">
                 <i class="fa-solid fa-bars"></i>
             </button>
         </div>
 
-        <!-- Mobile Dropdown -->
         <div class="mobile-menu" id="mobileMenu">
-            <a href="about.html" onclick="toggleMenu()">About Us</a>
-            <a href="gallery.html" onclick="toggleMenu()">Gallery</a>
-            <a href="services.html" onclick="toggleMenu()">Services</a>
-            <a href="contact.html" onclick="toggleMenu()">Contact Us</a>
+            <a href="#landscape" onclick="toggleMenu()">Global Scope</a>
+            <a href="#partner" onclick="toggleMenu()">Partner Hospital</a>
+            <a href="#services" onclick="toggleMenu()">Services</a>
+            <a href="#process" onclick="toggleMenu()">The Journey</a>
             <hr style="border: 0; border-top: 1px solid #eee;">
             <button class="btn btn-primary" style="width: 100%; justify-content: center;" onclick="openModal(); toggleMenu()">
                 Get in Touch
@@ -502,22 +544,22 @@
             <div class="container">
                 <div class="hero-content reveal">
                     <div class="hero-badge">
-                        <i class="fa-solid fa-check-circle"></i> Official Coordination Partner
+                        <i class="fa-solid fa-shield-halved"></i> Medical coordination service. Not a hospital or medical provider.
                     </div>
                     <h1>
-                        World-Class Cancer Care <br>
-                        <span class="text-gradient">Accessible to Everyone.</span>
+                        Coordinated Access to <br>
+                        <span class="text-gradient">World-Class Cancer Care in India</span>
                     </h1>
                     <p style="margin-top: 24px;">
-                        We bridge the distance between you and India's finest oncology specialists at Thangam Cancer Center. Personalized, affordable, and dignified care coordination.
+                        We bridge the distance between patients from across the globe and India's finest oncology specialists at Thangam Cancer Center. Personalized, affordable, and dignified care coordination.
                     </p>
                     
                     <div class="hero-actions">
                         <button class="btn btn-primary" onclick="openModal()">
-                            Request Medical Review
+                            <i class="fa-solid fa-user-doctor"></i> Request Medical Review
                         </button>
                         <button class="btn btn-outline" onclick="scrollToId('partner')">
-                            Meet Our Partner
+                            <i class="fa-solid fa-hospital"></i> Meet Our Partner
                         </button>
                     </div>
 
@@ -533,8 +575,47 @@
             </div>
         </section>
 
-        <!-- Exclusive Partner Section (UPDATED) -->
-        <section id="partner" style="padding-bottom: 120px;">
+        <!-- Global Landscape Section (Updated) -->
+        <section id="landscape" class="landscape-section">
+            <div class="container">
+                <div class="section-header reveal">
+                    <h2>Navigating Global Healthcare Options</h2>
+                    <p>Patients worldwide face unique challenges when accessing advanced medical care. We provide a bridge for those seeking timely and affordable treatment.</p>
+                </div>
+
+                <div class="region-grid reveal">
+                    <!-- Africa -->
+                    <div class="region-card">
+                        <div class="region-icon"><i class="fa-solid fa-globe-africa"></i></div>
+                        <h3>African Nations</h3>
+                        <p style="font-size: 0.95rem; margin-bottom: 0;">
+                            Many regions face a shortage of specialized medical infrastructure. Access to advanced diagnostics and oncology units often requires long-distance travel, driving patients to seek reliable care abroad.
+                        </p>
+                    </div>
+                    
+                    <!-- Europe -->
+                    <div class="region-card">
+                        <div class="region-icon"><i class="fa-solid fa-globe-europe"></i></div>
+                        <h3>Europe</h3>
+                        <p style="font-size: 0.95rem; margin-bottom: 0;">
+                            While public health systems are robust, patients frequently encounter long waiting lists for elective surgeries or specialized cancer treatments. Many seek faster scheduling in private international facilities.
+                        </p>
+                    </div>
+                    
+                    <!-- Americas -->
+                    <div class="region-card">
+                        <div class="region-icon"><i class="fa-solid fa-globe-americas"></i></div>
+                        <h3>The Americas</h3>
+                        <p style="font-size: 0.95rem; margin-bottom: 0;">
+                            Soaring healthcare costs and high deductibles in private systems put immense financial strain on families. India offers a viable alternative with significant cost advantages for complex procedures.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Exclusive Partner Section (Restored) -->
+        <section id="partner" style="padding-bottom: 120px; background: #F1F5F9;">
             <div class="container">
                 <div class="section-header reveal">
                     <span style="color: var(--accent); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; font-size: 0.8rem;">Exclusive Alliance</span>
@@ -581,7 +662,7 @@
         </section>
 
         <!-- Services Section -->
-        <section id="services" style="background: #F1F5F9;">
+        <section id="services">
             <div class="container">
                 <div class="section-header reveal">
                     <h2>How We Help You</h2>
@@ -618,7 +699,7 @@
         </section>
 
         <!-- Process Timeline -->
-        <section id="process">
+        <section id="process" style="background: #F1F5F9;">
             <div class="container">
                 <div class="section-header reveal">
                     <h2>Your Journey to Recovery</h2>
@@ -682,6 +763,10 @@
     <!-- Footer -->
     <footer>
         <div class="container">
+            <div class="footer-disclaimer">
+                <strong>Medical Disclaimer:</strong> Medi Connect International is a medical travel coordination service. We are not a medical provider, hospital, or medical practice. We do not provide medical advice, diagnosis, or treatment. All medical services are provided by licensed third-party medical professionals in India.
+            </div>
+            
             <div class="footer-grid">
                 <div class="footer-col">
                     <a href="index.html" class="logo" style="margin-bottom: 20px;">
@@ -694,17 +779,17 @@
                 <div class="footer-col">
                     <h5>Quick Links</h5>
                     <ul>
-                        <li><a href="about.html">About Us</a></li>
-                        <li><a href="services.html">Services</a></li>
-                        <li><a href="gallery.html">Gallery</a></li>
+                        <li><a href="#landscape">Global Scope</a></li>
+                        <li><a href="#services">Services</a></li>
+                        <li><a href="#partner">Partner Hospital</a></li>
                     </ul>
                 </div>
                 <div class="footer-col">
                     <h5>Legal</h5>
                     <ul>
-                        <li><a href="privacy.html">Privacy Policy</a></li>
-                        <li><a href="terms.html">Terms of Service</a></li>
-                        <li><a href="disclaimer.html">Medical Disclaimer</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Medical Disclaimer</a></li>
                     </ul>
                 </div>
                 <div class="footer-col">
@@ -789,7 +874,7 @@
 
         function openModal() {
             modal.classList.add('active');
-            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+            document.body.style.overflow = 'hidden';
         }
 
         function closeModal() {
@@ -797,7 +882,6 @@
             document.body.style.overflow = '';
         }
 
-        // Close modal if clicked outside
         modal.addEventListener('click', (e) => {
             if (e.target === modal) closeModal();
         });
@@ -816,11 +900,7 @@
             `;
 
             container.appendChild(toast);
-
-            // Trigger animation
             setTimeout(() => toast.classList.add('show'), 10);
-
-            // Remove after 4 seconds
             setTimeout(() => {
                 toast.classList.remove('show');
                 setTimeout(() => toast.remove(), 400);
@@ -830,7 +910,6 @@
         // 5. Form Handling
         function handleFormSubmit(e) {
             e.preventDefault();
-            // Simulate API call
             const btn = e.target.querySelector('button[type="submit"]');
             const originalText = btn.innerText;
             
