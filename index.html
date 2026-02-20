@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Medi Connect International | Global Medical Travel Coordination</title>
+    <title>Medi Connect International | Trusted Cancer Care Coordination</title>
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -59,6 +59,7 @@
             position: relative;
         }
 
+        /* Subtle Noise Texture */
         body::before {
             content: "";
             position: fixed;
@@ -79,7 +80,6 @@
         h1 { font-size: 3.5rem; }
         h2 { font-size: 2.5rem; margin-bottom: 1rem; }
         h3 { font-size: 1.5rem; margin-bottom: 0.5rem; }
-        h4 { font-size: 1.15rem; }
         
         p { margin-bottom: 1.5rem; color: var(--secondary); font-size: 1.05rem; }
         
@@ -134,7 +134,7 @@
         .logo { 
             font-family: var(--font-heading); 
             font-weight: 800; 
-            font-size: 1.25rem; 
+            font-size: 1.35rem; 
             color: var(--primary); 
             display: flex; align-items: center; gap: 10px; 
             letter-spacing: -0.03em;
@@ -248,10 +248,6 @@
             max-width: 700px;
             margin: 0 auto 60px;
         }
-        .section-header.left {
-            text-align: left;
-            margin: 0 0 40px 0;
-        }
 
         /* --- 7. GLOBAL LANDSCAPE SECTION --- */
         .landscape-section {
@@ -303,7 +299,7 @@
             border: 1px solid rgba(0,0,0,0.04);
             display: grid;
             grid-template-columns: 1fr 1fr;
-            min-height: 550px;
+            min-height: 600px;
         }
 
         .featured-img {
@@ -510,13 +506,13 @@
             </a>
             
             <nav class="nav-links">
-                <a href="#landscape" class="nav-link">Global Scope</a>
-                <a href="#partner" class="nav-link">Partner Hospital</a>
-                <a href="#services" class="nav-link">Services</a>
-                <a href="#process" class="nav-link">The Journey</a>
+                <a href="about.html" class="nav-link">About Us</a>
+                <a href="gallery.html" class="nav-link">Gallery</a>
+                <a href="services.html" class="nav-link">Services</a>
+                <a href="contact.html" class="nav-link">Contact Us</a>
             </nav>
 
-            <a href="#contact" class="btn btn-primary btn-desktop-cta">
+            <a href="contact.html" class="btn btn-primary btn-desktop-cta">
                 Get Started
             </a>
 
@@ -526,10 +522,10 @@
         </div>
 
         <div class="mobile-menu" id="mobileMenu">
-            <a href="#landscape" onclick="toggleMenu()">Global Scope</a>
-            <a href="#partner" onclick="toggleMenu()">Partner Hospital</a>
-            <a href="#services" onclick="toggleMenu()">Services</a>
-            <a href="#process" onclick="toggleMenu()">The Journey</a>
+            <a href="about.html" onclick="toggleMenu()">About Us</a>
+            <a href="gallery.html" onclick="toggleMenu()">Gallery</a>
+            <a href="services.html" onclick="toggleMenu()">Services</a>
+            <a href="contact.html" onclick="toggleMenu()">Contact Us</a>
             <hr style="border: 0; border-top: 1px solid #eee;">
             <button class="btn btn-primary" style="width: 100%; justify-content: center;" onclick="openModal(); toggleMenu()">
                 Get in Touch
@@ -544,22 +540,22 @@
             <div class="container">
                 <div class="hero-content reveal">
                     <div class="hero-badge">
-                        <i class="fa-solid fa-shield-halved"></i> Medical coordination service. Not a hospital or medical provider.
+                        <i class="fa-solid fa-check-circle"></i> Official Coordination Partner
                     </div>
                     <h1>
-                        Coordinated Access to <br>
-                        <span class="text-gradient">World-Class Cancer Care in India</span>
+                        World-Class Cancer Care <br>
+                        <span class="text-gradient">Accessible to Everyone.</span>
                     </h1>
                     <p style="margin-top: 24px;">
-                        We bridge the distance between patients from across the globe and India's finest oncology specialists at Thangam Cancer Center. Personalized, affordable, and dignified care coordination.
+                        We bridge the distance between you and India's finest oncology specialists at Thangam Cancer Center. Personalized, affordable, and dignified care coordination.
                     </p>
                     
                     <div class="hero-actions">
                         <button class="btn btn-primary" onclick="openModal()">
-                            <i class="fa-solid fa-user-doctor"></i> Request Medical Review
+                            Request Medical Review
                         </button>
                         <button class="btn btn-outline" onclick="scrollToId('partner')">
-                            <i class="fa-solid fa-hospital"></i> Meet Our Partner
+                            Meet Our Partner
                         </button>
                     </div>
 
@@ -575,7 +571,7 @@
             </div>
         </section>
 
-        <!-- Global Landscape Section (Updated) -->
+        <!-- Global Landscape Section -->
         <section id="landscape" class="landscape-section">
             <div class="container">
                 <div class="section-header reveal">
@@ -614,7 +610,7 @@
             </div>
         </section>
 
-        <!-- Exclusive Partner Section (Restored) -->
+        <!-- Exclusive Partner Section (RESTORED) -->
         <section id="partner" style="padding-bottom: 120px; background: #F1F5F9;">
             <div class="container">
                 <div class="section-header reveal">
@@ -779,17 +775,17 @@
                 <div class="footer-col">
                     <h5>Quick Links</h5>
                     <ul>
-                        <li><a href="#landscape">Global Scope</a></li>
-                        <li><a href="#services">Services</a></li>
-                        <li><a href="#partner">Partner Hospital</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="services.html">Services</a></li>
+                        <li><a href="gallery.html">Gallery</a></li>
                     </ul>
                 </div>
                 <div class="footer-col">
                     <h5>Legal</h5>
                     <ul>
-                        <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="#">Terms of Service</a></li>
-                        <li><a href="#">Medical Disclaimer</a></li>
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                        <li><a href="terms.html">Terms of Service</a></li>
+                        <li><a href="disclaimer.html">Medical Disclaimer</a></li>
                     </ul>
                 </div>
                 <div class="footer-col">
