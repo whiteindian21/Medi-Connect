@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Dashboard | Medi Connect International</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0f4c5c',
+                        secondary: '#16a34a',
+                        accent: '#d97706',
+                        surface: '#f8fafc',
+                    },
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        serif: ['"Playfair Display"', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body { color: #334155; background-color: #f1f5f9; }
+        
+        /* Custom Scrollbar */
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+
+        .nav-item.active {
+            background-color: #0f4c5c;
+            color: white;
+        }
+        .nav-item:hover:not(.active) {
+            background-color: #e2e8f0;
+            color: #0f4c5c;
+        }
+
+        /* Modal Transitions */
+        .modal {
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .modal.open {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        /* Toast Animation */
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        .toast {
+            animation: slideIn 0.3s ease-out forwards;
+        }
+    </style>
+</head>
+<body class="flex h-screen overflow-hidden relative">
+
+    <!-- Mobile Sidebar Overlay -->
+    <div id="sidebar-overlay" onclick="toggleSidebar()" class="fixed inset-0 bg-black/50 z-40 hidden md:hidden transition-opacity opacity-0"></div>
+
+    <!-- Sidebar -->
+    <aside id="sidebar" class="-translate-x-full md:translate-x-0 md:static fixed inset-y-0 left-0 z-50 w-64 bg-white border-r border-slate-200 h-full flex flex-col shadow-xl md:shadow-none transition-transform duration-300 ease-in-out">
+        <!-- Logo -->
+        <div class="p-6 border-b border-slate-100 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center shadow-md">
+                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064"></path></svg>
+                </div>
+                <div>
+                    <span class="font-serif font-bold text-xl text-primary leading-none">Medi Connect</span>
+                    <span class="block text-[9px] font-bold text-accent uppercase tracking-widest mt-1">International</span>
+                </div>
+            </div>
+            <button onclick="toggleSidebar()" class="md:hidden text-slate-400 hover:text-slate-600">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+        </div>
+
+        <!-- Navigation -->
+        <nav class="flex-1 overflow-y-auto py-6 px-3 space-y-1">
+            <a href="#" onclick="navigateTo('dashboard', this)" class="nav-item active flex items-center px-3 py-3 text-sm font-medium rounded-lg transition-colors">
+                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
+                Dashboard
+            </a>
+            <a href="#" onclick="navigateTo('appointments', this)" class="nav-item flex items-center px-3 py-3 text-sm font-medium text-slate-600 rounded-lg transition-colors">
+                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                Appointments
+            </a>
+            <a href="#" onclick="navigateTo('records', this)" class="nav-item flex items-center px-3 py-3 text-sm font-medium text-slate-600 rounded-lg transition-colors">
+                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                Medical Records
+            </a>
+            <a href="#" onclick="navigateTo('payments', this)" class="nav-item flex items-center px-3 py-3 text-sm font-medium text-slate-600 rounded-lg transition-colors">
+                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg>
+                Payments & Finance
+            </a>
+            <a href="#" onclick="navigateTo('travel', this)" class="nav-item flex items-center px-3 py-3 text-sm font-medium text-slate-600 rounded-lg transition-colors">
+                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
+                Travel Itinerary
+            </a>
+            <a href="#" onclick="navigateTo('messages', this)" class="nav-item flex items-center px-3 py-3 text-sm font-medium text-slate-600 rounded-lg transition-colors">
+                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path></svg>
+                Messages
+                <span class="ml-auto bg-red-100 text-red-600 py-0.5 px-2 rounded-full text-xs font-bold">2</span>
+            </a>
+        </nav>
+
+        <!-- User Profile -->
+        <div class="p-4 border-t border-slate-100">
+            <a href="#" class="flex items-center gap-3 p-2 rounded-lg hover:bg-slate-50 transition-colors">
+                <img src="https://picsum.photos/seed/patient1/100/100.jpg" class="w-10 h-10 rounded-full object-cover border-2 border-white shadow-sm" alt="Profile">
+                <div class="flex-1 min-w-0">
+                    <p class="text-sm font-semibold text-slate-900 truncate">John Doe</p>
+                    <p class="text-xs text-slate-500 truncate">Case #MC-2024-884</p>
+                </div>
+                <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+            </a>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="flex-1 flex flex-col h-screen overflow-hidden relative">
+        <!-- Top Header -->
+        <header class="bg-white border-b border-slate-200 h-16 flex items-center justify-between px-6 shadow-sm z-10">
+            <div class="flex items-center">
+                <button onclick="toggleSidebar()" class="md:hidden mr-4 text-slate-500 hover:text-primary">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                </button>
+                <div>
+                    <h2 id="page-title" class="text-lg font-semibold text-slate-800">Patient Dashboard</h2>
+                    <p id="page-subtitle" class="text-xs text-slate-500">Destination: Thangam Cancer Center, India</p>
+                </div>
+            </div>
+            
+            <div class="flex items-center gap-4">
+                <button class="relative p-2 text-slate-400 hover:text-slate-600 transition-colors" onclick="showToast('No new notifications', 'info')">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
+                    <span class="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border border-white"></span>
+                </button>
+            </div>
+        </header>
+
+        <!-- SCROLLABLE CONTENT AREA -->
+        <main class="flex-1 overflow-y-auto p-4 sm:p-8 scrollbar-hide relative bg-slate-50">
+            
+            <!-- VIEW: DASHBOARD -->
+            <div id="view-dashboard" class="view-section max-w-7xl mx-auto space-y-6">
+                <!-- Welcome & Journey Status Hero -->
+                <div class="grid lg:grid-cols-3 gap-6">
+                    <!-- Welcome Card -->
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col justify-center">
+                        <h1 class="font-serif text-2xl font-bold text-slate-900 mb-2">Welcome back, John</h1>
+                        <p class="text-slate-500 text-sm mb-4">Your travel to Chennai is confirmed. Please review your flight details and medical appointments below.</p>
+                        <div class="mt-2">
+                             <p class="text-xs font-semibold text-slate-500 uppercase">Departure In:</p>
+                             <p class="text-lg font-bold text-accent">4 Days</p>
+                        </div>
+                    </div>
+
+                    <!-- Journey Progress Card -->
+                    <div class="bg-primary text-white p-6 rounded-2xl shadow-lg relative overflow-hidden lg:col-span-2">
+                        <div class="absolute top-0 right-0 p-8 opacity-10">
+                            <svg class="w-32 h-32" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                        </div>
+                        <div class="relative z-10 flex justify-between items-start mb-6">
+                            <div>
+                                <h3 class="font-serif text-xl font-bold mb-1">Treatment Journey</h3>
+                                <p class="text-white/70 text-sm">Current Phase: <span class="text-accent font-bold">Travel & Arrival</span></p>
+                            </div>
+                            <span class="bg-white/20 px-3 py-1 rounded-full text-xs font-bold border border-white/30">80% Complete</span>
+                        </div>
+                        
+                        <div class="flex items-center justify-between text-center relative">
+                            <div class="absolute top-1/2 left-0 right-0 h-1 bg-white/20 -translate-y-1/2 z-0"></div>
+                            <!-- Steps -->
+                            <div onclick="showToast('Phase 1 Complete', 'success')" class="relative z-10 flex flex-col items-center group cursor-pointer">
+                                <div class="w-10 h-10 rounded-full bg-green-500 border-4 border-primary/30 flex items-center justify-center mb-2 shadow-lg">
+                                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                </div>
+                                <span class="text-xs font-medium text-white/90">Inquiry</span>
+                            </div>
+                            <div onclick="showToast('Visa Approved', 'success')" class="relative z-10 flex flex-col items-center group cursor-pointer">
+                                <div class="w-10 h-10 rounded-full bg-green-500 border-4 border-primary/30 flex items-center justify-center mb-2 shadow-lg">
+                                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                </div>
+                                <span class="text-xs font-medium text-white/90">Visa</span>
+                            </div>
+                            <div onclick="showToast('Flight Confirmed', 'info')" class="relative z-10 flex flex-col items-center group cursor-pointer">
+                                <div class="w-10 h-10 rounded-full bg-accent border-4 border-primary/30 flex items-center justify-center mb-2 shadow-lg ring-4 ring-accent/20">
+                                    <svg class="w-5 h-5 text-white animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                </div>
+                                <span class="text-xs font-bold text-white">Travel</span>
+                            </div>
+                            <div class="relative z-10 flex flex-col items-center group cursor-pointer opacity-50">
+                                <div class="w-10 h-10 rounded-full bg-white/10 border-4 border-primary/30 flex items-center justify-center mb-2">
+                                    <span class="text-xs font-bold">4</span>
+                                </div>
+                                <span class="text-xs font-medium text-white/90">Treatment</span>
+                            </div>
+                            <div class="relative z-10 flex flex-col items-center group cursor-pointer opacity-50">
+                                <div class="w-10 h-10 rounded-full bg-white/10 border-4 border-primary/30 flex items-center justify-center mb-2">
+                                    <span class="text-xs font-bold">5</span>
+                                </div>
+                                <span class="text-xs font-medium text-white/90">Recovery</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main Grid -->
+                <div class="grid lg:grid-cols-3 gap-6">
+                    
+                    <!-- Left Column -->
+                    <div class="lg:col-span-2 space-y-6">
+                        
+                        <!-- Upcoming Appointments -->
+                        <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
+                            <div class="flex justify-between items-center mb-6">
+                                <h3 class="font-bold text-slate-900">Upcoming Appointments</h3>
+                                <button onclick="navigateTo('appointments')" class="text-sm text-primary font-semibold hover:underline">View Calendar</button>
+                            </div>
+                            
+                            <div class="space-y-4">
+                                <!-- Appt 1 -->
+                                <div class="flex items-start p-4 bg-blue-50 rounded-xl border border-blue-100 hover:shadow-md transition-shadow">
+                                    <div class="flex-shrink-0 bg-white p-3 rounded-lg shadow-sm text-center min-w-[70px]">
+                                        <div class="text-xs font-bold text-blue-600 uppercase">Oct</div>
+                                        <div class="text-xl font-bold text-slate-900">24</div>
+                                    </div>
+                                    <div class="ml-4 flex-1">
+                                        <div class="flex justify-between items-start">
+                                            <div>
+                                                <h4 class="font-bold text-slate-900">Initial Oncology Consultation</h4>
+                                                <p class="text-sm text-slate-600">Dr. Arjun Kumar, Thangam Cancer Center</p>
+                                                <p class="text-xs text-slate-500 mt-1">Building A, 3rd Floor, OPD Block</p>
+                                            </div>
+                                            <span class="bg-blue-100 text-blue-700 text-xs px-2 py-1 rounded font-bold">10:00 AM</span>
+                                        </div>
+                                        <div class="mt-3 flex gap-2">
+                                            <button onclick="openModal('rescheduleModal')" class="text-xs bg-white border border-blue-200 text-blue-600 px-3 py-1.5 rounded font-medium hover:bg-blue-50">Reschedule</button>
+                                            <button onclick="openModal('apptDetailsModal')" class="text-xs bg-primary text-white px-3 py-1.5 rounded font-medium hover:bg-slate-800">View Details</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Appt 2 -->
+                                <div class="flex items-start p-4 bg-white border border-slate-100 rounded-xl hover:shadow-md transition-shadow">
+                                    <div class="flex-shrink-0 bg-slate-50 p-3 rounded-lg text-center min-w-[70px]">
+                                        <div class="text-xs font-bold text-slate-500 uppercase">Oct</div>
+                                        <div class="text-xl font-bold text-slate-900">26</div>
+                                    </div>
+                                    <div class="ml-4 flex-1">
+                                        <div class="flex justify-between items-start">
+                                            <div>
+                                                <h4 class="font-bold text-slate-900">CT Angiography Scan</h4>
+                                                <p class="text-sm text-slate-600">Radiology Department, Basement Level</p>
+                                                <p class="text-xs text-slate-500 mt-1">Preparation: 4 hours fasting required</p>
+                                            </div>
+                                            <span class="bg-slate-100 text-slate-600 text-xs px-2 py-1 rounded font-bold">02:30 PM</span>
+                                        </div>
+                                        <div class="mt-3 flex gap-2">
+                                            <button onclick="openModal('rescheduleModal')" class="text-xs bg-white border border-slate-200 text-slate-600 px-3 py-1.5 rounded font-medium hover:bg-slate-50">Reschedule</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Documents Section -->
+                        <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
+                            <div class="flex justify-between items-center mb-6">
+                                <h3 class="font-bold text-slate-900">Medical Documents</h3>
+                                <button onclick="navigateTo('records')" class="flex items-center text-sm bg-primary text-white px-3 py-1.5 rounded-lg hover:bg-slate-800 transition-colors">
+                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
+                                    Manage Files
+                                </button>
+                                <input type="file" id="fileInput" class="hidden" onchange="simulateUpload(this)">
+                            </div>
+
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-left text-sm text-slate-600">
+                                    <thead class="bg-slate-50 text-xs uppercase text-slate-500 font-semibold">
+                                        <tr>
+                                            <th class="px-4 py-3 rounded-l-lg">Document Name</th>
+                                            <th class="px-4 py-3">Date</th>
+                                            <th class="px-4 py-3">Status</th>
+                                            <th class="px-4 py-3 rounded-r-lg text-right">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-slate-100">
+                                        <tr>
+                                            <td class="px-4 py-3 font-medium text-slate-900 flex items-center">
+                                                <svg class="w-5 h-5 text-red-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+                                                Visa_Invitation_Letter.pdf
+                                            </td>
+                                            <td class="px-4 py-3">Oct 05</td>
+                                            <td class="px-4 py-3"><span class="bg-green-100 text-green-700 px-2 py-1 rounded text-xs font-bold">Approved</span></td>
+                                            <td class="px-4 py-3 text-right"><button onclick="downloadFile('Visa_Invitation_Letter.pdf')" class="text-primary hover:underline">Download</button></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="px-4 py-3 font-medium text-slate-900 flex items-center">
+                                                <svg class="w-5 h-5 text-red-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+                                                Recent_MRI_Reports.zip
+                                            </td>
+                                            <td class="px-4 py-3">Oct 08</td>
+                                            <td class="px-4 py-3"><span class="bg-green-100 text-green-700 px-2 py-1 rounded text-xs font-bold">Reviewed</span></td>
+                                            <td class="px-4 py-3 text-right"><button onclick="downloadFile('Recent_MRI_Reports.zip')" class="text-primary hover:underline">Download</button></td>
+                                        </tr>
+                                        <tr id="uploadRow" class="hidden">
+                                            <td class="px-4 py-3 font-medium text-slate-900 flex items-center">
+                                                <svg class="w-5 h-5 text-red-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+                                                <span id="uploadFileName">New_Document.pdf</span>
+                                            </td>
+                                            <td class="px-4 py-3">Just now</td>
+                                            <td class="px-4 py-3"><span class="bg-yellow-100 text-yellow-700 px-2 py-1 rounded text-xs font-bold">Uploading...</span></td>
+                                            <td class="px-4 py-3 text-right"><span class="text-slate-400 text-xs">Processing</span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Right Column -->
+                    <div class="space-y-6">
+                        
+                        <!-- Payment Summary -->
+                        <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
+                            <h3 class="font-bold text-slate-900 mb-4">Payment Overview</h3>
+                            <div class="mb-4">
+                                <div class="flex justify-between text-sm mb-1">
+                                    <span class="text-slate-500">Total Estimate</span>
+                                    <span class="font-bold text-slate-900">$12,500 USD</span>
+                                </div>
+                                <div class="w-full bg-slate-100 rounded-full h-2.5">
+                                    <div class="bg-secondary h-2.5 rounded-full" style="width: 30%"></div>
+                                </div>
+                                <div class="flex justify-between text-xs mt-1">
+                                    <span class="text-secondary font-semibold">Paid: $3,750</span>
+                                    <span class="text-slate-400">Due on Arrival: $8,750</span>
+                                </div>
+                            </div>
+                            <button onclick="navigateTo('payments')" class="w-full py-2 border border-slate-200 rounded-lg text-sm font-semibold text-slate-700 hover:bg-slate-50 transition-colors">
+                                View Invoice History
+                            </button>
+                        </div>
+
+                        <!-- Travel Itinerary Widget -->
+                        <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="font-bold text-slate-900">Travel Details</h3>
+                                <span class="text-xs bg-green-100 text-green-700 px-2 py-1 rounded">Confirmed</span>
+                            </div>
+                            <div class="relative pl-4 border-l-2 border-slate-100 space-y-6">
+                                <div class="relative">
+                                    <div class="absolute -left-[21px] top-1 w-3 h-3 rounded-full bg-secondary border-2 border-white ring-1 ring-slate-100"></div>
+                                    <p class="text-xs text-slate-500 uppercase font-bold mb-1">Flight</p>
+                                    <p class="text-sm font-semibold text-slate-900">JNB &rarr; MAA</p>
+                                    <p class="text-xs text-slate-500">Oct 22, 2024 • 08:30 AM</p>
+                                </div>
+                                <div class="relative">
+                                    <div class="absolute -left-[21px] top-1 w-3 h-3 rounded-full bg-accent border-2 border-white ring-1 ring-slate-100"></div>
+                                    <p class="text-xs text-slate-500 uppercase font-bold mb-1">Accommodation</p>
+                                    <p class="text-sm font-semibold text-slate-900">Taj Connemara</p>
+                                    <p class="text-xs text-slate-500">5 Nights • Chennai</p>
+                                </div>
+                            </div>
+                            <button onclick="navigateTo('travel')" class="w-full mt-4 py-2 bg-slate-800 text-white rounded-lg text-xs font-bold uppercase tracking-wide hover:bg-slate-900 transition-colors">
+                                Full Itinerary
+                            </button>
+                        </div>
+
+                        <!-- Messages Preview -->
+                        <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
+                            <h3 class="font-bold text-slate-900 mb-4">Messages</h3>
+                            <div class="space-y-3">
+                                <div class="flex gap-3 p-3 bg-slate-50 rounded-lg hover:bg-slate-100 cursor-pointer transition-colors" onclick="navigateTo('messages')">
+                                    <div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-xs">MC</div>
+                                    <div>
+                                        <p class="text-xs font-bold text-slate-900">Medi Connect Team</p>
+                                        <p class="text-xs text-slate-500 truncate w-40">Your visa sticker has been applied. Safe travels!</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <button onclick="navigateTo('messages')" class="w-full mt-4 text-sm text-primary font-semibold hover:underline">Go to Inbox</button>
+                        </div>
+                    </div>
+                </div>
+
+                <footer class="text-center text-xs text-slate-400 py-6">
+                    &copy; 2025 Medi Connect International.
+                </footer>
+            </div>
+
+            <!-- VIEW: APPOINTMENTS -->
+            <div id="view-appointments" class="view-section hidden max-w-6xl mx-auto">
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 mb-6">
+                    <div class="flex flex-col md:flex-row justify-between items-center mb-6">
+                        <h2 class="text-2xl font-bold text-slate-900">Appointments</h2>
+                        <div class="flex gap-2 mt-4 md:mt-0">
+                            <button class="px-4 py-2 bg-slate-100 text-slate-700 rounded-lg text-sm font-semibold">Oct 2024</button>
+                            <button class="px-4 py-2 bg-slate-100 text-slate-700 rounded-lg text-sm font-semibold">Nov 2024</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Calendar Grid (Visual Representation) -->
+                    <div class="grid grid-cols-7 gap-px bg-slate-200 rounded-lg overflow-hidden border border-slate-200">
+                        <div class="bg-slate-50 p-2 text-center text-xs font-bold text-slate-500">SUN</div>
+                        <div class="bg-slate-50 p-2 text-center text-xs font-bold text-slate-500">MON</div>
+                        <div class="bg-slate-50 p-2 text-center text-xs font-bold text-slate-500">TUE</div>
+                        <div class="bg-slate-50 p-2 text-center text-xs font-bold text-slate-500">WED</div>
+                        <div class="bg-slate-50 p-2 text-center text-xs font-bold text-slate-500">THU</div>
+                        <div class="bg-slate-50 p-2 text-center text-xs font-bold text-slate-500">FRI</div>
+                        <div class="bg-slate-50 p-2 text-center text-xs font-bold text-slate-500">SAT</div>
+
+                        <!-- Days -->
+                        <div class="bg-white p-2 text-center text-sm text-slate-300">29</div>
+                        <div class="bg-white p-2 text-center text-sm text-slate-300">30</div>
+                        <div class="bg-white p-2 text-center text-sm text-slate-900">1</div>
+                        <div class="bg-white p-2 text-center text-sm text-slate-900">2</div>
+                        <div class="bg-white p-2 text-center text-sm text-slate-900 relative">
+                            3
+                            <span class="absolute bottom-1 left-1/2 transform -translate-x-1/2 w-1.5 h-1.5 bg-blue-500 rounded-full"></span>
+                        </div>
+                        <div class="bg-white p-2 text-center text-sm text-slate-900">4</div>
+                        <div class="bg-white p-2 text-center text-sm text-slate-900">5</div>
+                        <!-- Row 2 -->
+                        <div class="bg-white p-2 text-center text-sm text-slate-900">6</div>
+                        <div class="bg-white p-2 text-center text-sm text-slate-900">7</div>
+                        <div class="bg-white p-2 text-center text-sm text-slate-900">8</div>
+                        <div class="bg-white p-2 text-center text-sm text-slate-900">9</div>
+                        <div class="bg-white p-2 text-center text-sm text-slate-900">10</div>
+                        <div class="bg-white p-2 text-center text-sm text-slate-900">11</div>
+                        <div class="bg-white p-2 text-center text-sm text-slate-900">12</div>
+                        <!-- Row 3 -->
+                        <div class="bg-white p-2 text-center text-sm text-slate-900">13</div>
+                        <div class="bg-white p-2 text-center text-sm text-slate-900">14</div>
+                        <div class="bg-white p-2 text-center text-sm text-slate-900">15</div>
+                        <div class="bg-white p-2 text-center text-sm text-slate-900">16</div>
+                        <div class="bg-white p-2 text-center text-sm text-slate-900">17</div>
+                        <div class="bg-white p-2 text-center text-sm text-slate-900">18</div>
+                        <div class="bg-white p-2 text-center text-sm text-slate-900">19</div>
+                        <!-- Row 4 -->
+                        <div class="bg-white p-2 text-center text-sm text-slate-900">20</div>
+                        <div class="bg-white p-2 text-center text-sm text-slate-900">21</div>
+                        <div class="bg-white p-2 text-center text-sm text-slate-900">22</div>
+                        <div class="bg-white p-2 text-center text-sm text-slate-900">23</div>
+                        <div class="bg-primary/10 p-2 text-center text-sm font-bold text-primary">24</div>
+                        <div class="bg-white p-2 text-center text-sm text-slate-900 relative">
+                            25
+                             <span class="absolute bottom-1 left-1/2 transform -translate-x-1/2 w-1.5 h-1.5 bg-green-500 rounded-full"></span>
+                        </div>
+                        <div class="bg-white p-2 text-center text-sm text-slate-900 relative">
+                            26
+                             <span class="absolute bottom-1 left-1/2 transform -translate-x-1/2 w-1.5 h-1.5 bg-green-500 rounded-full"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Upcoming List -->
+                <h3 class="text-lg font-bold text-slate-900 mb-4">Scheduled Appointments</h3>
+                <div class="space-y-4">
+                    <div class="bg-white p-4 rounded-xl border border-l-4 border-l-blue-500 shadow-sm flex justify-between items-center">
+                        <div>
+                            <h4 class="font-bold text-slate-900">Initial Oncology Consultation</h4>
+                            <p class="text-sm text-slate-600">Dr. Arjun Kumar</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="font-bold text-slate-900">Oct 24, 10:00 AM</p>
+                            <p class="text-xs text-slate-500">Thangam Cancer Center</p>
+                        </div>
+                        <div class="flex gap-2">
+                            <button class="p-2 text-slate-400 hover:text-blue-600"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg></button>
+                        </div>
+                    </div>
+                    <div class="bg-white p-4 rounded-xl border border-l-4 border-l-green-500 shadow-sm flex justify-between items-center">
+                        <div>
+                            <h4 class="font-bold text-slate-900">CT Angiography Scan</h4>
+                            <p class="text-sm text-slate-600">Radiology Dept.</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="font-bold text-slate-900">Oct 26, 02:30 PM</p>
+                            <p class="text-xs text-slate-500">Thangam Cancer Center</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- VIEW: MEDICAL RECORDS -->
+            <div id="view-records" class="view-section hidden max-w-6xl mx-auto h-full flex flex-col md:flex-row gap-6">
+                <!-- Sidebar for Records -->
+                <div class="w-full md:w-1/4 bg-white rounded-2xl shadow-sm border border-slate-100 p-4 h-fit">
+                    <h3 class="font-bold text-slate-900 mb-4">Folders</h3>
+                    <div class="space-y-1">
+                        <div class="p-2 bg-blue-50 text-primary rounded-lg cursor-pointer flex items-center">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2v5a2 2 0 002 2z"></path></svg>
+                            All Documents
+                        </div>
+                        <div class="p-2 hover:bg-slate-50 text-slate-600 rounded-lg cursor-pointer flex items-center">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                            Scan Reports
+                        </div>
+                        <div class="p-2 hover:bg-slate-50 text-slate-600 rounded-lg cursor-pointer flex items-center">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                            Lab Results
+                        </div>
+                        <div class="p-2 hover:bg-slate-50 text-slate-600 rounded-lg cursor-pointer flex items-center">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                            Prescriptions
+                        </div>
+                    </div>
+                    <div class="mt-6 pt-6 border-t border-slate-100">
+                        <button onclick="triggerFileUpload()" class="w-full py-2 bg-primary text-white rounded-lg text-sm font-semibold hover:bg-slate-800 transition-colors flex justify-center items-center">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
+                            Upload New
+                        </button>
+                    </div>
+                </div>
+
+                <!-- File List -->
+                <div class="flex-1 bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
+                    <h3 class="font-bold text-slate-900 mb-4">All Documents</h3>
+                    <table class="w-full text-left text-sm text-slate-600">
+                        <thead class="bg-slate-50 text-xs uppercase text-slate-500 font-semibold">
+                            <tr>
+                                <th class="px-4 py-3 rounded-l-lg">Name</th>
+                                <th class="px-4 py-3">Date</th>
+                                <th class="px-4 py-3">Size</th>
+                                <th class="px-4 py-3 rounded-r-lg">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100">
+                            <tr>
+                                <td class="px-4 py-3 font-medium text-slate-900">Visa_Invitation_Letter.pdf</td>
+                                <td class="px-4 py-3">Oct 05, 2024</td>
+                                <td class="px-4 py-3">1.2 MB</td>
+                                <td class="px-4 py-3 text-blue-600 cursor-pointer hover:underline">Download</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3 font-medium text-slate-900">MRI_Spine_Results.dicom</td>
+                                <td class="px-4 py-3">Oct 08, 2024</td>
+                                <td class="px-4 py-3">450 MB</td>
+                                <td class="px-4 py-3 text-blue-600 cursor-pointer hover:underline">Download</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3 font-medium text-slate-900">Blood_Work_Full.pdf</td>
+                                <td class="px-4 py-3">Oct 08, 2024</td>
+                                <td class="px-4 py-3">2.4 MB</td>
+                                <td class="px-4 py-3 text-blue-600 cursor-pointer hover:underline">Download</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- VIEW: PAYMENTS -->
+            <div id="view-payments" class="view-section hidden max-w-5xl mx-auto">
+                <div class="grid md:grid-cols-3 gap-6 mb-6">
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+                        <p class="text-sm text-slate-500">Total Due</p>
+                        <h3 class="text-2xl font-bold text-slate-900">$8,750</h3>
+                        <p class="text-xs text-slate-400 mt-1">Due upon hospital arrival</p>
+                        <button class="w-full mt-4 py-2 border border-slate-300 rounded-lg text-sm font-semibold hover:bg-slate-50">Add Payment Method</button>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+                        <p class="text-sm text-slate-500">Paid to Date</p>
+                        <h3 class="text-2xl font-bold text-green-600">$3,750</h3>
+                        <p class="text-xs text-slate-400 mt-1">30% of total estimate</p>
+                        <button onclick="openModal('invoiceModal')" class="w-full mt-4 py-2 border border-slate-300 rounded-lg text-sm font-semibold hover:bg-slate-50">View Receipts</button>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+                        <p class="text-sm text-slate-500">Estimated Total</p>
+                        <h3 class="text-2xl font-bold text-slate-900">$12,500</h3>
+                        <p class="text-xs text-slate-400 mt-1">Includes procedure & stay</p>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
+                    <h3 class="font-bold text-slate-900 mb-4">Transaction History</h3>
+                    <table class="w-full text-left text-sm text-slate-600">
+                        <thead class="bg-slate-50 text-xs uppercase text-slate-500 font-semibold">
+                            <tr>
+                                <th class="px-4 py-3 rounded-l-lg">ID</th>
+                                <th class="px-4 py-3">Date</th>
+                                <th class="px-4 py-3">Description</th>
+                                <th class="px-4 py-3">Amount</th>
+                                <th class="px-4 py-3">Status</th>
+                                <th class="px-4 py-3 rounded-r-lg">Receipt</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100">
+                            <tr>
+                                <td class="px-4 py-3 font-bold text-slate-900">TXN-9982</td>
+                                <td class="px-4 py-3">Oct 10, 2024</td>
+                                <td class="px-4 py-3">Hospital Advance Deposit</td>
+                                <td class="px-4 py-3">$3,600.00</td>
+                                <td class="px-4 py-3"><span class="bg-green-100 text-green-700 px-2 py-1 rounded text-xs font-bold">Success</span></td>
+                                <td class="px-4 py-3"><svg class="w-5 h-5 text-slate-400 cursor-pointer" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg></td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3 font-bold text-slate-900">TXN-9910</td>
+                                <td class="px-4 py-3">Oct 05, 2024</td>
+                                <td class="px-4 py-3">Consultation Fee</td>
+                                <td class="px-4 py-3">$150.00</td>
+                                <td class="px-4 py-3"><span class="bg-green-100 text-green-700 px-2 py-1 rounded text-xs font-bold">Success</span></td>
+                                <td class="px-4 py-3"><svg class="w-5 h-5 text-slate-400 cursor-pointer" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- VIEW: TRAVEL ITINERARY -->
+            <div id="view-travel" class="view-section hidden max-w-4xl mx-auto">
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-8 relative overflow-hidden">
+                    <div class="absolute left-8 top-0 bottom-0 w-0.5 bg-slate-200"></div>
+                    
+                    <!-- Flight -->
+                    <div class="relative pl-12 mb-10">
+                        <div class="absolute left-6 top-0 w-5 h-5 bg-white border-4 border-secondary rounded-full z-10"></div>
+                        <div class="flex items-center justify-between mb-2">
+                            <div>
+                                <p class="text-xs font-bold text-secondary uppercase tracking-wider">Flight Outbound</p>
+                                <h3 class="text-xl font-bold text-slate-900">Johannesburg (JNB) to Chennai (MAA)</h3>
+                            </div>
+                            <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-bold">Confirmed</span>
+                        </div>
+                        <div class="bg-slate-50 p-4 rounded-lg grid md:grid-cols-2 gap-4 text-sm">
+                            <div>
+                                <span class="text-slate-500 block text-xs">Date</span>
+                                <span class="font-semibold text-slate-900">Oct 22, 2024</span>
+                            </div>
+                            <div>
+                                <span class="text-slate-500 block text-xs">Flight</span>
+                                <span class="font-semibold text-slate-900">Emirates EK764</span>
+                            </div>
+                            <div>
+                                <span class="text-slate-500 block text-xs">Departure</span>
+                                <span class="font-semibold text-slate-900">20:40 (Terminal A)</span>
+                            </div>
+                            <div>
+                                <span class="text-slate-500 block text-xs">Arrival</span>
+                                <span class="font-semibold text-slate-900">08:30+1 (Terminal 4)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Hotel -->
+                    <div class="relative pl-12 mb-10">
+                        <div class="absolute left-6 top-0 w-5 h-5 bg-white border-4 border-accent rounded-full z-10"></div>
+                        <div class="flex items-center justify-between mb-2">
+                            <div>
+                                <p class="text-xs font-bold text-accent uppercase tracking-wider">Accommodation</p>
+                                <h3 class="text-xl font-bold text-slate-900">Taj Connemara, Chennai</h3>
+                            </div>
+                            <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-bold">Booked</span>
+                        </div>
+                        <div class="bg-slate-50 p-4 rounded-lg grid md:grid-cols-2 gap-4 text-sm">
+                            <div>
+                                <span class="text-slate-500 block text-xs">Check-In</span>
+                                <span class="font-semibold text-slate-900">Oct 22, 2024 (12:00 PM)</span>
+                            </div>
+                            <div>
+                                <span class="text-slate-500 block text-xs">Check-Out</span>
+                                <span class="font-semibold text-slate-900">Oct 27, 2024 (11:00 AM)</span>
+                            </div>
+                            <div class="md:col-span-2">
+                                <span class="text-slate-500 block text-xs">Address</span>
+                                <span class="font-semibold text-slate-900">107, Binny Road, Chennai, Tamil Nadu 600001</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Transfer -->
+                    <div class="relative pl-12">
+                        <div class="absolute left-6 top-0 w-5 h-5 bg-white border-4 border-primary rounded-full z-10"></div>
+                        <div class="flex items-center justify-between mb-2">
+                            <div>
+                                <p class="text-xs font-bold text-primary uppercase tracking-wider">Airport Transfer</p>
+                                <h3 class="text-xl font-bold text-slate-900">Arrival Pickup</h3>
+                            </div>
+                        </div>
+                        <div class="bg-slate-50 p-4 rounded-lg text-sm">
+                            <p class="text-slate-600">Driver will be waiting at Exit Gate 4 with a sign reading "JOHN DOE - MEDI CONNECT". Vehicle: Toyota Innova Crysta.</p>
+                            <p class="text-slate-900 font-semibold mt-2">Contact: +91 98765 43210</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- VIEW: MESSAGES -->
+            <div id="view-messages" class="view-section hidden h-full">
+                <div class="flex h-[calc(100vh-140px)] bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+                    <!-- Contacts List -->
+                    <div class="w-full md:w-1/3 border-r border-slate-100 bg-slate-50 overflow-y-auto">
+                        <div class="p-4 border-b border-slate-200 bg-white">
+                            <input type="text" placeholder="Search messages..." class="w-full bg-slate-100 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary">
+                        </div>
+                        <div class="p-3 bg-white border-l-4 border-l-primary cursor-pointer">
+                            <div class="flex justify-between items-start">
+                                <div class="flex items-center gap-2">
+                                    <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center font-bold text-primary">MC</div>
+                                    <div>
+                                        <p class="text-sm font-bold text-slate-900">Medi Connect Team</p>
+                                        <p class="text-xs text-slate-500 truncate w-32">Your visa is ready...</p>
+                                    </div>
+                                </div>
+                                <span class="text-[10px] text-slate-400">10:30 AM</span>
+                            </div>
+                        </div>
+                        <div class="p-3 hover:bg-white cursor-pointer border-l-4 border-transparent">
+                            <div class="flex justify-between items-start">
+                                <div class="flex items-center gap-2">
+                                    <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center font-bold text-green-700">DR</div>
+                                    <div>
+                                        <p class="text-sm font-bold text-slate-900">Dr. Kumar's Office</p>
+                                        <p class="text-xs text-slate-500 truncate w-32">Please remember to fast...</p>
+                                    </div>
+                                </div>
+                                <span class="text-[10px] text-slate-400">Yesterday</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Chat Area -->
+                    <div class="hidden md:flex flex-1 flex-col bg-white">
+                        <div class="p-4 border-b border-slate-100 flex justify-between items-center">
+                            <h3 class="font-bold text-slate-900">Medi Connect Team</h3>
+                            <span class="text-xs text-green-600 flex items-center"><span class="w-2 h-2 bg-green-500 rounded-full mr-2"></span>Online</span>
+                        </div>
+                        <div class="flex-1 overflow-y-auto p-4 space-y-4 bg-slate-50">
+                            <!-- Msg Received -->
+                            <div class="flex justify-start">
+                                <div class="bg-white border border-slate-200 rounded-2xl rounded-tl-none p-3 max-w-xs shadow-sm">
+                                    <p class="text-sm text-slate-700">Hello John, your medical visa invitation letter has been uploaded to your documents section. You can proceed with your visa application.</p>
+                                </div>
+                            </div>
+                            <!-- Msg Sent -->
+                            <div class="flex justify-end">
+                                <div class="bg-primary text-white rounded-2xl rounded-tr-none p-3 max-w-xs shadow-sm">
+                                    <p class="text-sm">Thank you! I have downloaded it. How long does the process usually take?</p>
+                                </div>
+                            </div>
+                            <!-- Msg Received -->
+                            <div class="flex justify-start">
+                                <div class="bg-white border border-slate-200 rounded-2xl rounded-tl-none p-3 max-w-xs shadow-sm">
+                                    <p class="text-sm text-slate-700">Typically 3-5 business days. We will monitor it and update you once approved.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-4 bg-white border-t border-slate-100">
+                            <div class="flex gap-2">
+                                <input type="text" placeholder="Type a message..." class="flex-1 bg-slate-100 rounded-full px-4 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary">
+                                <button class="p-2 bg-primary text-white rounded-full hover:bg-slate-800"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- MODALS (Keep Existing Modals) -->
+    <!-- Reschedule Modal -->
+    <div id="rescheduleModal" class="modal fixed inset-0 z-[60] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+        <div class="bg-white w-full max-w-md rounded-2xl shadow-2xl overflow-hidden">
+            <div class="p-6 border-b border-slate-100 flex justify-between items-center">
+                <h3 class="font-bold text-lg text-slate-900">Reschedule Appointment</h3>
+                <button onclick="closeModal('rescheduleModal')" class="text-slate-400 hover:text-red-500"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>
+            </div>
+            <div class="p-6 space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-1">New Date</label>
+                    <input type="date" class="w-full border border-slate-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-1">Preferred Time</label>
+                    <select class="w-full border border-slate-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary focus:outline-none">
+                        <option>Morning (9AM - 12PM)</option>
+                        <option>Afternoon (1PM - 4PM)</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-1">Reason for Reschedule</label>
+                    <textarea class="w-full border border-slate-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary focus:outline-none" rows="3"></textarea>
+                </div>
+            </div>
+            <div class="p-4 bg-slate-50 flex justify-end gap-3">
+                <button onclick="closeModal('rescheduleModal')" class="px-4 py-2 text-slate-600 font-medium hover:bg-slate-200 rounded-lg">Cancel</button>
+                <button onclick="submitReschedule()" class="px-4 py-2 bg-primary text-white font-medium rounded-lg hover:bg-slate-800">Confirm Change</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Details Modal -->
+    <div id="apptDetailsModal" class="modal fixed inset-0 z-[60] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+        <div class="bg-white w-full max-w-md rounded-2xl shadow-2xl overflow-hidden">
+            <div class="p-6 border-b border-slate-100 flex justify-between items-center">
+                <h3 class="font-bold text-lg text-slate-900">Appointment Details</h3>
+                <button onclick="closeModal('apptDetailsModal')" class="text-slate-400 hover:text-red-500"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>
+            </div>
+            <div class="p-6 space-y-4">
+                <div class="flex items-start gap-4">
+                    <div class="w-16 h-16 bg-blue-100 rounded-lg flex items-center justify-center text-2xl">🏥</div>
+                    <div>
+                        <h4 class="font-bold text-slate-900">Initial Oncology Consultation</h4>
+                        <p class="text-slate-600">Thangam Cancer Center</p>
+                        <p class="text-sm text-slate-500 mt-1">Building A, 3rd Floor, OPD Block</p>
+                    </div>
+                </div>
+                <div class="border-t pt-4 grid grid-cols-2 gap-4 text-sm">
+                    <div>
+                        <span class="block text-slate-500">Date</span>
+                        <span class="font-semibold">Oct 24, 2024</span>
+                    </div>
+                    <div>
+                        <span class="block text-slate-500">Time</span>
+                        <span class="font-semibold">10:00 AM - 11:00 AM</span>
+                    </div>
+                    <div>
+                        <span class="block text-slate-500">Doctor</span>
+                        <span class="font-semibold">Dr. Arjun Kumar</span>
+                    </div>
+                    <div>
+                        <span class="block text-slate-500">Type</span>
+                        <span class="font-semibold">In-Person</span>
+                    </div>
+                </div>
+                <div class="bg-slate-50 p-3 rounded-lg text-sm text-slate-600">
+                    <p class="font-bold mb-1">Instructions:</p>
+                    <ul class="list-disc list-inside space-y-1">
+                        <li>Bring your original ID and Passport.</li>
+                        <li>Please carry all previous MRI films and reports on CD.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Invoice Modal -->
+    <div id="invoiceModal" class="modal fixed inset-0 z-[60] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+        <div class="bg-white w-full max-w-2xl rounded-2xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col">
+            <div class="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50">
+                <h3 class="font-bold text-lg text-slate-900">Invoice History</h3>
+                <button onclick="closeModal('invoiceModal')" class="text-slate-400 hover:text-red-500"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>
+            </div>
+            <div class="p-6 overflow-y-auto">
+                <table class="w-full text-left text-sm text-slate-600">
+                    <thead class="bg-slate-100 text-xs uppercase text-slate-500 font-semibold">
+                        <tr>
+                            <th class="px-4 py-3 rounded-l-lg">Invoice #</th>
+                            <th class="px-4 py-3">Date</th>
+                            <th class="px-4 py-3">Description</th>
+                            <th class="px-4 py-3">Amount</th>
+                            <th class="px-4 py-3 rounded-r-lg">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100">
+                        <tr>
+                            <td class="px-4 py-3 font-bold text-slate-900">INV-001</td>
+                            <td class="px-4 py-3">Oct 05, 2024</td>
+                            <td class="px-4 py-3">Case Management & Consultation Fee</td>
+                            <td class="px-4 py-3">$150.00</td>
+                            <td class="px-4 py-3"><span class="bg-green-100 text-green-700 px-2 py-1 rounded text-xs font-bold">Paid</span></td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 font-bold text-slate-900">INV-002</td>
+                            <td class="px-4 py-3">Oct 10, 2024</td>
+                            <td class="px-4 py-3">Hospital Advance Deposit (30%)</td>
+                            <td class="px-4 py-3">$3,600.00</td>
+                            <td class="px-4 py-3"><span class="bg-green-100 text-green-700 px-2 py-1 rounded text-xs font-bold">Paid</span></td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 font-bold text-slate-900">INV-003</td>
+                            <td class="px-4 py-3">Pending</td>
+                            <td class="px-4 py-3">Procedure & Hospitalization Balance</td>
+                            <td class="px-4 py-3">$8,750.00</td>
+                            <td class="px-4 py-3"><span class="bg-slate-100 text-slate-600 px-2 py-1 rounded text-xs font-bold">Pay at Hospital</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="p-4 bg-slate-50 flex justify-end">
+                <button onclick="closeModal('invoiceModal')" class="px-6 py-2 bg-slate-800 text-white font-medium rounded-lg hover:bg-slate-900">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div id="toast-container" class="fixed bottom-4 right-4 z-[70] flex flex-col gap-2"></div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // --- Navigation Logic (SPA) ---
+        function navigateTo(viewId, navElement) {
+            // 1. Update Title
+            const titles = {
+                'dashboard': { title: 'Patient Dashboard', sub: 'Destination: Thangam Cancer Center, India' },
+                'appointments': { title: 'My Appointments', sub: 'Schedule and manage your consultations' },
+                'records': { title: 'Medical Records', sub: 'Upload and access your documents' },
+                'payments': { title: 'Payments & Finance', sub: 'Invoices and transaction history' },
+                'travel': { title: 'Travel Itinerary', sub: 'Flight, Hotel and Transfer details' },
+                'messages': { title: 'Messages', sub: 'Chat with coordinators and doctors' }
+            };
+
+            document.getElementById('page-title').textContent = titles[viewId].title;
+            document.getElementById('page-subtitle').textContent = titles[viewId].sub;
+
+            // 2. Switch View Content
+            document.querySelectorAll('.view-section').forEach(el => el.classList.add('hidden'));
+            document.getElementById('view-' + viewId).classList.remove('hidden');
+
+            // 3. Update Nav Active State
+            if (navElement) {
+                document.querySelectorAll('.nav-item').forEach(el => {
+                    el.classList.remove('active');
+                    el.classList.add('text-slate-600');
+                });
+                navElement.classList.add('active');
+                navElement.classList.remove('text-slate-600');
+            }
+            
+            // 4. Close mobile menu if open
+            if (window.innerWidth < 768) {
+                toggleSidebar();
+            }
+        }
+
+        // --- Mobile Sidebar Toggle ---
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebar-overlay');
+            
+            if (sidebar.classList.contains('-translate-x-full')) {
+                sidebar.classList.remove('-translate-x-full');
+                sidebar.classList.add('translate-x-0');
+                overlay.classList.remove('hidden');
+                setTimeout(() => overlay.classList.remove('opacity-0'), 10);
+            } else {
+                sidebar.classList.remove('translate-x-0');
+                sidebar.classList.add('-translate-x-full');
+                overlay.classList.add('opacity-0');
+                setTimeout(() => overlay.classList.add('hidden'), 300);
+            }
+        }
+
+        // --- Modals ---
+        function openModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.classList.remove('open');
+            document.body.style.overflow = '';
+        }
+
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                closeModal(event.target.id);
+            }
+        }
+
+        // --- File Upload Simulation ---
+        function triggerFileUpload() {
+            document.getElementById('fileInput').click();
+        }
+
+        function simulateUpload(input) {
+            if (input.files && input.files[0]) {
+                const file = input.files[0];
+                const row = document.getElementById('uploadRow');
+                const nameSpan = document.getElementById('uploadFileName');
+                
+                nameSpan.textContent = file.name;
+                row.classList.remove('hidden');
+                
+                showToast(`Uploading ${file.name}...`, 'info');
+
+                setTimeout(() => {
+                    const statusCell = row.querySelector('td:nth-child(3)');
+                    statusCell.innerHTML = '<span class="bg-green-100 text-green-700 px-2 py-1 rounded text-xs font-bold">Received</span>';
+                    showToast('Document uploaded successfully', 'success');
+                }, 2000);
+            }
+        }
+
+        function downloadFile(filename) {
+            showToast(`Downloading ${filename}...`, 'info');
+            setTimeout(() => {
+                showToast('Download complete', 'success');
+            }, 1500);
+        }
+
+        function submitReschedule() {
+            closeModal('rescheduleModal');
+            showToast('Request sent to coordination team', 'success');
+        }
+
+        // --- Toast Notification System ---
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            
+            let bgClass = 'bg-slate-800';
+            let icon = '<svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>';
+            
+            if (type === 'success') {
+                bgClass = 'bg-slate-800 border-l-4 border-green-500';
+                icon = '<svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>';
+            } else if (type === 'error') {
+                bgClass = 'bg-red-600';
+                icon = '<svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>';
+            }
+
+            toast.className = `toast flex items-center p-4 rounded-lg shadow-lg text-white text-sm font-medium ${bgClass} min-w-[300px]`;
+            toast.innerHTML = `<div class="mr-3">${icon}</div><div>${message}</div>`;
+
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateX(100%)';
+                toast.style.transition = 'all 0.3s ease';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
