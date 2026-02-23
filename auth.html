@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Portal | Medi Connect International</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    
+  
+
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0f4c5c',
+                        secondary: '#16a34a',
+                        accent: '#d97706',
+                        surface: '#f8fafc',
+                    },
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        serif: ['"Playfair Display"', 'serif'],
+                    },
+                    backgroundImage: {
+                        'auth-pattern': "url('data:image/svg+xml,%3Csvg width=\'40\' height=\'40\' viewBox=\'0 0 40 40\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'0.05\' fill-rule=\'evenodd\'%3E%3Cpath d=\'M0 40L40 0H20L0 20M40 40V20L20 40\'/%3E%3C/g%3E%3C/svg%3E')",
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            color: #334155;
+        }
+        
+        /* Form transitions */
+        .form-section {
+            display: none;
+            animation: fadeIn 0.4s ease-in-out;
+        }
+        .form-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .input-group:focus-within label {
+            color: #0f4c5c;
+        }
+        .input-group:focus-within input {
+            border-color: #0f4c5c;
+            box-shadow: 0 0 0 3px rgba(15, 76, 92, 0.1);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen flex flex-col md:flex-row">
+
+    <!-- Left Side: Branding & Image -->
+    <div class="hidden md:flex md:w-1/2 lg:w-3/5 bg-primary relative overflow-hidden flex-col justify-between p-12 text-white">
+        <!-- Background Image with Overlay -->
+        <div class="absolute inset-0 z-0">
+            <img src="https://picsum.photos/seed/medconnect/1200/1600.jpg" alt="Medical Travel Background" class="w-full h-full object-cover opacity-30">
+            <div class="absolute inset-0 bg-gradient-to-b from-primary/90 via-primary/70 to-primary/90"></div>
+        </div>
+
+        <div class="relative z-10 flex flex-col h-full justify-between">
+            <!-- Top Logo -->
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 bg-white/10 backdrop-blur border border-white/20 rounded-lg flex items-center justify-center">
+                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                </div>
+                <div>
+                    <span class="font-serif font-bold text-2xl tracking-tight">Medi Connect</span>
+                    <span class="block text-[10px] font-semibold text-accent uppercase tracking-widest">International</span>
+                </div>
+            </div>
+
+            <!-- Middle Content -->
+            <div class="max-w-md">
+                <h2 class="font-serif text-4xl font-bold mb-4 leading-tight">Your Health Journey,<br>Simplified.</h2>
+                <p class="text-slate-200 text-lg leading-relaxed mb-6">
+                    Access your medical records, track your treatment plan, and communicate with your coordination team securely from anywhere in the world.
+                </p>
+                <div class="flex items-center space-x-4 text-sm text-slate-300">
+                    <div class="flex -space-x-2">
+                        <div class="w-8 h-8 rounded-full bg-slate-400 border-2 border-primary flex items-center justify-center text-xs font-bold">JD</div>
+                        <div class="w-8 h-8 rounded-full bg-slate-300 border-2 border-primary flex items-center justify-center text-xs font-bold">AS</div>
+                        <div class="w-8 h-8 rounded-full bg-slate-200 border-2 border-primary flex items-center justify-center text-xs font-bold text-slate-700">MK</div>
+                    </div>
+                    <span>Trusted by 500+ patients</span>
+                </div>
+            </div>
+
+            <!-- Bottom Quote/Trust -->
+            <div class="border-t border-white/10 pt-6">
+                <div class="flex items-start space-x-3">
+                    <svg class="w-6 h-6 text-green-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                    <div>
+                        <p class="text-sm text-slate-300 font-medium">256-bit SSL Encrypted Connection</p>
+                        <p class="text-xs text-slate-400">Your medical data is protected by enterprise-grade security standards.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Right Side: Forms -->
+    <div class="w-full md:w-1/2 lg:w-2/5 flex items-center justify-center p-6 md:p-12 bg-white relative">
+        
+        <div class="w-full max-w-md">
+            <!-- Mobile Logo (Visible only on small screens) -->
+            <div class="md:hidden flex items-center justify-center mb-8">
+                <div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center mr-2">
+                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064"></path></svg>
+                </div>
+                <span class="font-serif font-bold text-xl text-primary">Medi Connect</span>
+            </div>
+
+            <!-- Toggle Tabs -->
+            <div class="flex bg-slate-100 p-1 rounded-xl mb-8">
+                <button id="tab-login" onclick="switchTab('login')" class="flex-1 py-2.5 text-sm font-semibold rounded-lg shadow-sm bg-white text-primary transition-all">Sign In</button>
+                <button id="tab-register" onclick="switchTab('register')" class="flex-1 py-2.5 text-sm font-semibold rounded-lg text-slate-500 hover:text-slate-700 transition-all">Create Account</button>
+            </div>
+
+            <!-- LOGIN FORM -->
+            <div id="login-section" class="form-section active">
+                <h3 class="font-serif text-2xl font-bold text-slate-900 mb-2">Welcome back</h3>
+                <p class="text-slate-500 mb-6 text-sm">Please enter your details to access the patient portal.</p>
+                
+                <form onsubmit="handleLogin(event)" class="space-y-5">
+                    <div class="input-group">
+                        <label class="block text-xs font-bold text-slate-500 uppercase mb-1.5 tracking-wide">Email Address</label>
+                        <input type="email" id="login-email" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-slate-900 focus:outline-none transition-all placeholder-slate-400" placeholder="name@example.com">
+                    </div>
+
+                    <div class="input-group">
+                        <div class="flex justify-between items-center mb-1.5">
+                            <label class="block text-xs font-bold text-slate-500 uppercase tracking-wide">Password</label>
+                            <a href="#" class="text-xs text-primary font-semibold hover:underline">Forgot password?</a>
+                        </div>
+                        <input type="password" id="login-password" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-slate-900 focus:outline-none transition-all placeholder-slate-400" placeholder="••••••••">
+                    </div>
+
+                    <div class="flex items-center">
+                        <input id="remember-me" type="checkbox" class="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded">
+                        <label for="remember-me" class="ml-2 block text-sm text-slate-600">
+                            Remember me for 30 days
+                        </label>
+                    </div>
+
+                    <div id="login-error" class="text-sm text-red-600 hidden"></div>
+
+                    <button type="submit" id="login-btn" class="w-full py-3.5 bg-primary text-white font-bold rounded-lg hover:bg-slate-800 transition-all shadow-lg shadow-primary/20 flex justify-center items-center">
+                        <span class="btn-text">Sign In Securely</span>
+                        <svg class="hidden w-5 h-5 animate-spin ml-2 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                    </button>
+                </form>
+            </div>
+
+            <!-- REGISTER FORM -->
+            <div id="register-section" class="form-section">
+                <h3 class="font-serif text-2xl font-bold text-slate-900 mb-2">Create Account</h3>
+                <p class="text-slate-500 mb-6 text-sm">Register to start your medical coordination process.</p>
+                
+                <form onsubmit="handleRegister(event)" class="space-y-4">
+                    <div class="input-group">
+                        <label class="block text-xs font-bold text-slate-500 uppercase mb-1.5 tracking-wide">Full Name</label>
+                        <input type="text" id="reg-name" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-slate-900 focus:outline-none transition-all placeholder-slate-400" placeholder="John Doe">
+                    </div>
+
+                    <div class="input-group">
+                        <label class="block text-xs font-bold text-slate-500 uppercase mb-1.5 tracking-wide">Email Address</label>
+                        <input type="email" id="reg-email" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-slate-900 focus:outline-none transition-all placeholder-slate-400" placeholder="name@example.com">
+                    </div>
+
+                    <div class="input-group">
+                        <label class="block text-xs font-bold text-slate-500 uppercase mb-1.5 tracking-wide">Phone Number</label>
+                        <input type="tel" id="reg-phone" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-slate-900 focus:outline-none transition-all placeholder-slate-400" placeholder="+27 XX XXX XXXX">
+                    </div>
+
+                    <div class="input-group">
+                        <label class="block text-xs font-bold text-slate-500 uppercase mb-1.5 tracking-wide">Password</label>
+                        <input type="password" id="reg-pass" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-slate-900 focus:outline-none transition-all placeholder-slate-400" placeholder="Create a strong password">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label class="block text-xs font-bold text-slate-500 uppercase mb-1.5 tracking-wide">Confirm Password</label>
+                        <input type="password" id="reg-pass-conf" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-slate-900 focus:outline-none transition-all placeholder-slate-400" placeholder="Confirm password">
+                    </div>
+
+                    <div class="flex items-start">
+                        <input id="terms" type="checkbox" required class="h-4 w-4 mt-0.5 text-primary focus:ring-primary border-gray-300 rounded">
+                        <label for="terms" class="ml-2 block text-xs text-slate-600 leading-tight">
+                            I agree to the <a href="#" class="text-primary font-semibold hover:underline">Terms of Service</a> and <a href="#" class="text-primary font-semibold hover:underline">Privacy Policy</a>.
+                        </label>
+                    </div>
+
+                    <div id="register-error" class="text-sm text-red-600 hidden"></div>
+
+                    <button type="submit" id="register-btn" class="w-full py-3.5 bg-primary text-white font-bold rounded-lg hover:bg-slate-800 transition-all shadow-lg shadow-primary/20 flex justify-center items-center mt-2">
+                        <span class="btn-text">Create Account</span>
+                        <svg class="hidden w-5 h-5 animate-spin ml-2 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                    </button>
+                </form>
+            </div>
+
+            <!-- Back to Home -->
+            <div class="mt-8 text-center border-t border-slate-100 pt-6">
+                <a href="index.html" class="inline-flex items-center text-sm text-slate-500 hover:text-primary transition-colors">
+                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                    Back to Home
+                </a>
+            </div>
+
+        </div>
+    </div>
+  <!-- Supabase JS Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- JavaScript Logic -->
+    <script>
+        // ⚠️ IMPORTANT: Replace with your own Supabase project URL and anon key
+        const SUPABASE_URL = 'https://iwtvqdifkjutwirjpttd.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml3dHZxZGlma2p1dHdpcmpwdHRkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE4ODM5MjgsImV4cCI6MjA4NzQ1OTkyOH0.ZxSjoZhUlmmXuX4UNq9NTK8CKIRrtQKhrCi_ic_-KR4';
+
+        // Initialize Supabase client
+        // FIX: Using 'supabaseClient' (Capital C) to avoid conflicts
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // Helper to display errors
+        function showError(elementId, message) {
+            const errorEl = document.getElementById(elementId);
+            errorEl.textContent = message;
+            errorEl.classList.remove('hidden');
+        }
+
+        function hideError(elementId) {
+            const errorEl = document.getElementById(elementId);
+            errorEl.classList.add('hidden');
+        }
+
+        function switchTab(tab) {
+            const loginSection = document.getElementById('login-section');
+            const registerSection = document.getElementById('register-section');
+            const loginTab = document.getElementById('tab-login');
+            const registerTab = document.getElementById('tab-register');
+
+            if (tab === 'login') {
+                loginSection.classList.add('active');
+                registerSection.classList.remove('active');
+                
+                loginTab.classList.add('bg-white', 'text-primary', 'shadow-sm');
+                loginTab.classList.remove('text-slate-500');
+                
+                registerTab.classList.remove('bg-white', 'text-primary', 'shadow-sm');
+                registerTab.classList.add('text-slate-500');
+            } else {
+                registerSection.classList.add('active');
+                loginSection.classList.remove('active');
+                
+                registerTab.classList.add('bg-white', 'text-primary', 'shadow-sm');
+                registerTab.classList.remove('text-slate-500');
+                
+                loginTab.classList.remove('bg-white', 'text-primary', 'shadow-sm');
+                loginTab.classList.add('text-slate-500');
+            }
+        }
+
+        async function handleLogin(e) {
+            e.preventDefault();
+            hideError('login-error');
+
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+
+            const btn = document.getElementById('login-btn');
+            const btnText = btn.querySelector('.btn-text');
+            const spinner = btn.querySelector('svg');
+
+            // Loading state
+            btnText.textContent = 'Authenticating...';
+            spinner.classList.remove('hidden');
+            btn.disabled = true;
+            btn.classList.add('opacity-75', 'cursor-not-allowed');
+
+            try {
+                // FIX: Changed to supabaseClient to match declaration above
+                const { data, error } = await supabaseClient.auth.signInWithPassword({
+                    email,
+                    password
+                });
+
+                if (error) throw error;
+
+                // Success - redirect or show message
+                alert('Login successful! Redirecting to dashboard...');
+                 window.location.href = '/dashboard.html'; // Uncomment in real app
+            } catch (error) {
+                showError('login-error', error.message);
+            } finally {
+                btnText.textContent = 'Sign In Securely';
+                spinner.classList.add('hidden');
+                btn.disabled = false;
+                btn.classList.remove('opacity-75', 'cursor-not-allowed');
+            }
+        }
+
+        async function handleRegister(e) {
+            e.preventDefault();
+            hideError('register-error');
+
+            const name = document.getElementById('reg-name').value;
+            const email = document.getElementById('reg-email').value;
+            const phone = document.getElementById('reg-phone').value;
+            const password = document.getElementById('reg-pass').value;
+            const confirm = document.getElementById('reg-pass-conf').value;
+
+            if (password !== confirm) {
+                showError('register-error', 'Passwords do not match.');
+                return;
+            }
+
+            const btn = document.getElementById('register-btn');
+            const btnText = btn.querySelector('.btn-text');
+            const spinner = btn.querySelector('svg');
+
+            btnText.textContent = 'Creating Account...';
+            spinner.classList.remove('hidden');
+            btn.disabled = true;
+            btn.classList.add('opacity-75', 'cursor-not-allowed');
+
+            try {
+                // FIX: Changed to supabaseClient to match declaration above
+                const { data, error } = await supabaseClient.auth.signUp({
+                    email,
+                    password,
+                    options: {
+                        data: {
+                            full_name: name,
+                            phone: phone,
+                        }
+                    }
+                });
+
+                if (error) throw error;
+
+                // Success - show confirmation message
+                if (data.user && data.user.identities && data.user.identities.length === 0) {
+                    alert('An account with this email already exists. Please sign in.');
+                } else {
+                    alert('Registration successful! Please check your email for confirmation.');
+                }
+                // Optionally switch to login tab
+                // switchTab('login');
+            } catch (error) {
+                showError('register-error', error.message);
+            } finally {
+                btnText.textContent = 'Create Account';
+                spinner.classList.add('hidden');
+                btn.disabled = false;
+                btn.classList.remove('opacity-75', 'cursor-not-allowed');
+            }
+        }
+    </script>
+</body>
+</html>
